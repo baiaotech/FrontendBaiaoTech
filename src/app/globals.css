@@ -121,3 +121,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+html,
+body {
+  max-width: 100dvw;
+  line-height: 1.5;
+  letter-spacing: 1.5;
+}
