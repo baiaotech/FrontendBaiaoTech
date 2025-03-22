@@ -5,7 +5,7 @@ import { pegarTodosEventos } from "@/routes/api.routes";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
 import ArrowRightIcon from "@/assets/arrow-right.svg";
 import Link from "next/link";
-import SkeletonCard from "@/components/SkeletonCard"; 
+import SkeletonCard from "@/components/skeletonCard"; 
 
 interface Evento {
   id: number;
