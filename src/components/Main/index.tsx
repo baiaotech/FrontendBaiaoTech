@@ -1,5 +1,5 @@
 import CategoriasCarousel from "@/components/CategoriasCarousel";
-import ProximosEventos from "@/components/ProximosEventos";
+import ProximosEventos from "@/components/proximosEventos";
 import EventoPrincipal from "@/components/EventoPrincipal";
 
 export default function Main() {
