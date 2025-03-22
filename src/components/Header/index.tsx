@@ -1,11 +1,9 @@
 "use client";
-import Image from "next/image";
-import locationIcon from "@/assets/pin.svg";
-import chevronBottomIcon from "@/assets/chevron-bottom.svg";
 import Link from "next/link";
-import menuIcon from "@/assets/menu.svg";
-import closeMenuIcon from "@/assets/menu_close.svg";
 import { useState } from "react";
+import { Menu } from "lucide-react";
+import logo from "@/assets/logo/20.svg"
+import Image from "next/image";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,105 +13,65 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-[#333]">
-      <nav className="w-full h-20 flex flex-row justify-between items-center p-6 lg:px-8">
+    <header className="bg-[#e6e6e7]">
+      <div className="w-full h-20 flex flex-row justify-between items-center p-6 lg:px-8">
         <div className="h-full flex justify-center items-center">
-          <Link
+          <Link 
             href="/"
-            className="text-2xl font-bold leading-relaxed text-white uppercase"
+            className="size-36"
           >
-            Baião <span className="text-orange-500">Tech</span>
+            <Image src={logo} alt="logo" className="size-full object-cover" />
           </Link>
         </div>
 
-        <div className="h-full flex flex-row justify-center items-center gap-8">
-          <Link className="text-white text-xs font-bold uppercase" href="/">Comunidades</Link>
-          <Link className="text-white text-xs font-bold uppercase" href="/">Baião Tech Fest</Link>
-        </div>
-
-        <div className="h-full flex flex-row justify-center items-center gap-8">
-          <div className="h-full flex justify-center items-center">
-            <button className="bg-none border-none text-white text-xs font-bold uppercase cursor-pointer flex justify-center items-center">
-              <Image src={locationIcon} alt="Icone de Localização" width={14} />
-              <span className="mx-1">Qualquer Lugar</span>
-              <Image
-                src={chevronBottomIcon}
-                alt="Icone de seta para baixo"
-                width={14}
-              />
-            </button>
+        <nav className="hidden md:flex gap-6">
+          <div className="text-slate-900 lg:text-sm md:text-xs font-bold">
+            <Link className="hover:text-orange-600 transition" href="/comunidades">Comunidades</Link>
+          </div>
+          <div className="text-slate-900 lg:text-sm md:text-xs font-bold">
+            <Link className="hover:text-orange-600 transition" href="/">Baião Tech Fest</Link>
           </div>
 
           <div className="h-full flex justify-center items-center">
             <Link
-              href="/"
-              className="text-orange-500 text-xs font-bold uppercase cursor-pointer"
+              href={`${process.env.FORM_LINK}`}
+              className="text-orange-500 lg:text-sm md:text-xs font-bold cursor-pointer hover:text-orange-800"
+              target="_blank"
             >
-              INDIQUE UM EVENTO
+              Indique um evento
             </Link>
           </div>
+        </nav>
+
+        <div className="md:hidden cursor-pointer text-slate-900" onClick={handleMenuOpen}>
+          <Menu />
         </div>
-      </nav>
-
-      <div className="md:hidden flex justify-center items-center cursor-pointer">
-        <button
-          id="menuOpen"
-          onClick={handleMenuOpen}
-          className="w-7 h-7 bg-none border-none"
-        >
-          <Image
-            src={menuIcon}
-            alt="Menu Icon"
-            className="w-full h-full transition-all"
-          />
-        </button>
-
-        <button
-          id="menuClose"
-          onClick={handleMenuOpen}
-          className={`w-7 h-7 bg-none border-none ${
-            menuOpen ? "flex" : "hidden"
-          }`}
-        >
-          <Image
-            src={closeMenuIcon}
-            alt="Close menu Icon"
-            className="w-full h-full transition-all"
-          />
-        </button>
-      </div>
-
-      <div
-          className={`h-full flex flex-row justify-between items-center gap-8 ${
-            menuOpen ? "hidden" : "flex"
-          }`}
-        >
-
       </div>
 
       {menuOpen && (
-        <div className="md:hidden w-full absolute right-0 top-20 bg-gray-800 z-50 flex flex-col justify-center items-center p-5 gap-5">
-          <div className="h-full flex justify-center items-center">
-            <button className="bg-none border-none text-white text-sm font-bold uppercase cursor-pointer flex justify-center items-center">
-              <Image src={locationIcon} alt="Icone de Localização" width={14} />
-              <span className="mx-1">Qualquer Lugar</span>
-              <Image
-                src={chevronBottomIcon}
-                alt="Icone de seta para baixo"
-                width={14}
-              />
-            </button>
+        <nav className="flex flex-col justify-center items-center bg-[#e6e6e7] gap-5 py-4 md:hidden transition">
+          <div className="text-slate-900 text-xs font-bold">
+            <Link className="hover:text-orange-500" href="/comunidades">
+              Comunidades
+            </Link>
+          </div>
+
+          <div className="text-slate-900 text-xs font-bold">
+            <Link className="hover:text-orange-500" href="/">
+              Baião Tech Fest
+            </Link>
           </div>
 
           <div className="h-full flex justify-center items-center">
             <Link
-              href="/"
-              className="text-orange-500 text-sm font-bold uppercase cursor-pointer"
+              href={`${process.env.FORM_LINK}`}
+              className="text-orange-500 text-xs font-bold cursor-pointer hover:text-orange-800"
+              target="_blank"
             >
-              INDIQUE UM EVENTO
+              Indique um evento
             </Link>
           </div>
-        </div>
+        </nav>
       )}
     </header>
   );
