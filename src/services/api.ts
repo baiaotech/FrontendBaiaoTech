@@ -6,3 +6,10 @@ export const api = axios.create({
         "Content-Type": "application/json",
     },
 })
+
+export const comunidadeApi = axios.create({
+    baseURL: process.env.COMMUNITY_API_URL,
+    headers: {
+        "Content-Type": "application/json",
+    }
+})
