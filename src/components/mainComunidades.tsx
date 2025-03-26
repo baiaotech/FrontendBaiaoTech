@@ -6,9 +6,10 @@ import SkeletonCard from "./skeletonCard";
 
 export default function MainComunidades() {
   const [comunidade, setComunidade] = useState<Comunidade[]>([]);
-  const [qtdComunidade, setQtdComunidade] = useState(3);
   const [carregando, setCarregando] = useState(true);
 
+  const qtdComunidade = comunidade.length || 3
+  
   const fetchComunidade = async () => {
     try {
       const response = await pegarTodasAsComunidades();
@@ -20,7 +21,7 @@ export default function MainComunidades() {
       setCarregando(false);
     }
   };
-
+  
   useEffect(() => {
     setTimeout(() => {
       fetchComunidade();
