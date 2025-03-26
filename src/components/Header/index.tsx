@@ -14,13 +14,13 @@ export default function Header() {
 
   return (
     <header className="bg-[#e6e6e7]">
-      <div className="w-full h-20 flex flex-row justify-between items-center p-6 lg:px-8">
+      <div className="w-full h-20 flex flex-row justify-between items-center px-6 lg:px-8">
         <div className="h-full flex justify-center items-center">
           <Link 
             href="/"
-            className="size-36"
+            className="w-36 h-20 flex justify-center items-center"
           >
-            <Image src={logo} alt="logo" className="size-full object-cover" />
+            <Image src={logo} alt="logo" className="w-full h-full object-cover" />
           </Link>
         </div>
 
