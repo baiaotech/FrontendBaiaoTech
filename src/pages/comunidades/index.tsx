@@ -1,14 +1,14 @@
-import "@/app/globals.css"
+import "@/app/globals.css";
 import Header from "@/components/Header";
-import MainComunidades from "@/components/MainComunidades";
+import MainComunidades from "@/components/mainComunidades";
 import Footer from "@/components/Footer";
 
 export default function ComunidadesPage() {
-    return (
-        <>
-            <Header />
-            <MainComunidades />
-            <Footer />
-        </>
-    )
+  return (
+    <>
+      <Header />
+      <MainComunidades />
+      <Footer />
+    </>
+  );
 }
