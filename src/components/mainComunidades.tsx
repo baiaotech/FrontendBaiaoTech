@@ -1,14 +1,7 @@
 import { pegarTodasAsComunidades } from "@/routes/api.routes";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-interface Comunidade {
-  id: number;
-  nome: string;
-  descricao: string;
-  url_site: string;
-  url_insta: string;
-}
+import { Comunidade } from "@/types";
 
 export default function MainComunidades() {
   const [comunidade, setComunidade] = useState<Comunidade[]>([]);

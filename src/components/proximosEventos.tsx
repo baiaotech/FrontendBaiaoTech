@@ -6,19 +6,7 @@ import ArrowLeftIcon from "@/assets/arrow-left.svg";
 import ArrowRightIcon from "@/assets/arrow-right.svg";
 import Link from "next/link";
 import SkeletonCard from "@/components/skeletonCard"; 
-
-interface Evento {
-  id: number;
-  titulo: string;
-  data: string;
-  local: string;
-  organizacao: string;
-  valor: number;
-  link_compra: string;
-  descricao: string;
-  genero: string;
-  cover_photo_url?: string;
-}
+import { Evento } from "@/types";
 
 export default function ProximosEventos() {
   const [evento, setEvento] = useState<Evento[]>([]);
@@ -106,7 +94,7 @@ export default function ProximosEventos() {
             ))
           : visibleEvents.map((evento) => (
               <Link
-                href={`/eventos/${evento.id}`}
+                href={`/eventos/${evento.titulo}`}
                 className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
                 key={evento.id}
               >

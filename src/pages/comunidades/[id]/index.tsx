@@ -8,14 +8,7 @@ import Footer from "@/components/Footer";
 import instagramIcon from "@/assets/instagram.svg";
 import siteIcon from "@/assets/site.svg";
 import Image from "next/image";
-
-interface Comunidade {
-  id: number;
-  nome: string;
-  descricao: string;
-  url_site: string;
-  url_insta: string;
-}
+import { Comunidade } from "@/types";
 
 export default function ComunidadeCardDialog() {
   const [comunidade, setComunidade] = useState<Comunidade | null>(null);

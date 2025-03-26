@@ -5,19 +5,7 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { pegarTodosEventos } from "@/routes/api.routes";
 import { Skeleton } from "@/components/ui/skeleton";
-
-interface Evento {
-  id: number;
-  titulo: string;
-  data: string;
-  local: string;
-  organizacao: string;
-  valor: number;
-  link_compra: string;
-  descricao: string;
-  genero: string;
-  cover_photo_url: string;
-}
+import { Evento } from "@/types";
 
 export default function EventoPrincipal() {
   const [eventoEsperado, setEventoEsperado] = useState<Evento | null>(null);
