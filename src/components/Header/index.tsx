@@ -18,7 +18,7 @@ export default function Header() {
         <div className="h-full flex justify-center items-center">
           <Link 
             href="/"
-            className="w-36 h-20 flex justify-center items-center"
+            className="md:w-36 w-25 h-20 flex justify-center items-center"
           >
             <Image src={logo} alt="logo" className="w-full h-full object-cover" />
           </Link>

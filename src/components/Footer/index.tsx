@@ -16,10 +16,10 @@ export default function Footer() {
           <div className="flex justify-center items-center">
             <Link
               href="/"
-              className="text-2xl font-bold leading-[1.5] text-slate-900 uppercase tracking-[1px]"
+              className="md:w-36 w-25 h-20 flex justify-center items-center"
             >
               {/* Baião <span className="text-orange-500">Tech</span> */}
-              <Image src={logo} alt="logo" className="size-36" />
+              <Image src={logo} alt="logo" className="w-full h-full object-cover" />
             </Link>
           </div>
         </div>
@@ -28,14 +28,14 @@ export default function Footer() {
         <div className="w-full my-12 flex flex-wrap justify-between items-start gap-5">
           {/* <!-- Events --> */}
           <div className="flex flex-col gap-4">
-            <h4 className="text-[12px] font-bold text-slate-900 uppercase tracking-[1px]">
+            <h4 className="md:text-[12px] text-[10px] font-bold text-slate-900 uppercase tracking-[1px]">
               Encontre Eventos
             </h4>
             <ul className="flex flex-col gap-1">
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Hoje
                 </Link>
@@ -43,7 +43,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Amanhã
                 </Link>
@@ -51,7 +51,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Esta semana
                 </Link>
@@ -59,7 +59,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Este fim de semana
                 </Link>
@@ -67,7 +67,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Próxima semana
                 </Link>
@@ -75,7 +75,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Este mês
                 </Link>
@@ -85,7 +85,7 @@ export default function Footer() {
 
           {/* <!-- Categories --> */}
           <div className="flex flex-col gap-4">
-            <h4 className="text-[12px] font-bold text-slate-900 uppercase tracking-[1px]">
+            <h4 className="md:text-[12px] text-[10px] font-bold text-slate-900 uppercase tracking-[1px]">
               Categorias
             </h4>
             <ul className="flex flex-col gap-1">
@@ -93,7 +93,7 @@ export default function Footer() {
                 <li key={i.id}>
                   <Link
                     href="/"
-                    className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                    className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                   >
                     {i.nome}
                   </Link>
@@ -104,7 +104,7 @@ export default function Footer() {
 
           {/* <!-- Collaborator --> */}
           <div className="flex flex-col gap-4">
-            <h4 className="text-[12px] font-bold text-slate-900 uppercase tracking-[1px]">
+            <h4 className="md:text-[12px] text-[10px] font-bold text-slate-900 uppercase tracking-[1px]">
               Para Colaboradores
             </h4>
             <ul className="flex flex-col gap-1">
@@ -112,7 +112,7 @@ export default function Footer() {
                 <Link
                   href={`${process.env.FORM_LINK}`}
                   target="_blank"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Indique seu evento
                 </Link>
@@ -120,7 +120,8 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                  target="_blank"
+                  className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
                   Entre no Discord
                 </Link>
@@ -135,25 +136,25 @@ export default function Footer() {
             <div className="flex flex-row gap-8">
               <Link
                 href="/"
-                className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
               >
                 Home
               </Link>
               <Link
                 href="/"
-                className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
               >
                 Termos e Políticas
               </Link>
               <Link
                 href="/"
-                className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
               >
                 Ética e conduta
               </Link>
               <Link
                 href="/"
-                className="text-[10px] text-slate-700 uppercase hover:text-orange-500"
+                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
               >
                 Política de Direitos Humanos
               </Link>
@@ -190,7 +191,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="w-full h-[50px] mt-5 flex justify-start items-center">
-            <p className="text-[10px] text-slate-700 uppercase">
+            <p className="md:text-[10px] text-[8px] text-slate-700 uppercase">
               Baião Tech Community. © Copyright 2025
             </p>
           </div>
