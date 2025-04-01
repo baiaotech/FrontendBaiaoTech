@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: .
+    container_name: frontend-baiao-tech
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules # Evita sobrescrever node_modules do container
+    environment:
+      - NODE_ENV=development
