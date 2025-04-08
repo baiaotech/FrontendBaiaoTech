@@ -1,3 +1,4 @@
+"use client";
 import "@/app/globals.css";
 import { pegarTodasAsComunidades } from "@/routes/api.routes";
 import Link from "next/link";

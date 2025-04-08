@@ -1,5 +1,4 @@
 "use client";
-
 import { categorias } from "./categorias";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
 import ArrowRightIcon from "@/assets/arrow-right.svg";
@@ -79,22 +78,50 @@ export default function CategoriasCarousel() {
           ? Array.from({ length: itemsPorPagina }).map((_, index) => (
               <Skeleton
                 key={index}
-                className="w-[180px] h-[150px] rounded-2xl bg-[#e6e6e7]"
+                className="w-[180px] h-[150px] rounded-2xl"
               />
             ))
           : visibleCategories.map((category) => (
               <Link
-                href={`/categoria/${category.nome}`}
+                href={`/categorias/${category.genero}`}
                 key={category.id}
                 className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl transition"
               >
                 <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500">
                   <h3 className="text-sm text-slate-900 font-bold">
-                    {category.nome}
+                    {category.genero}
                   </h3>
                 </div>
               </Link>
             ))}
+
+        {carregando
+          ? Array.from({ length: itemsPorPagina }).map((_, index) => (
+              <Skeleton
+                key={index}
+                className="w-[180px] h-[150px] rounded-2xl"
+              />
+            ))
+          : categoriaAtualIndex + itemsPorPagina >= categorias.length && (
+              <Link
+                href="/categorias"
+                className="w-[180px] h-[150px] flex flex-col justify-center items-center rounded-2xl"
+              >
+                <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
+                  <Image
+                    className="w-full h-full object-cover rounded-full p-2"
+                    src={ArrowRightIcon}
+                    alt="icone para pagina dos eventos"
+                  />
+                </div>
+
+                <div className="w-full h-auto flex justify-center items-center">
+                  <p className="md:text-sm text-xs text-slate-900 font-bold">
+                    Ver Mais
+                  </p>
+                </div>
+              </Link>
+            )}
       </div>
     </div>
   );
