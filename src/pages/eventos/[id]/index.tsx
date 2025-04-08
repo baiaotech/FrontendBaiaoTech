@@ -52,15 +52,15 @@ export default function EventoPage() {
             <div className="w-full h-auto flex flex-row justify-between items-start">
               <div className="flex flex-col">
                 <h1 className="text-2xl font-bold capitalize">{evento.titulo}</h1>
-                <p className="text-lg font-semibold">{evento.genero}</p>
+                <p className="text-lg font-semibold capitalize">{evento.genero}</p>
               </div>
 
               <div className="flex flex-col justify-center items-start p-1.5">
-                <p className="text-md font-semibold text-orange-500">
+                <p className="text-md font-semibold text-orange-500 capitalize">
                   {evento.data}
                 </p>
-                <p className="text-md font-semibold">{evento.local}</p>
-                <p className="text-md font-semibold">{evento.organizacao}</p>
+                <p className="text-md font-semibold capitalize">{evento.local}</p>
+                <p className="text-md font-semibold capitalize">{evento.organizacao}</p>
               </div>
             </div>
 
@@ -71,7 +71,7 @@ export default function EventoPage() {
                 </p>
 
                 <Link
-                  className="p-2.5 bg-slate-900 text-white text-base rounded-lg"
+                  className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize"
                   href={evento.link_compra}
                   target="_blank"
                 >
