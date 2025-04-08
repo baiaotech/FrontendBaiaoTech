@@ -1,21 +1,21 @@
 "use client";
-
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { pegarTodosEventos } from "@/routes/api.routes";
+import { pegarEventoDestaque } from "@/routes/api.routes";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Evento } from "@/types";
+import { useRouter } from "next/navigation";
 
 export default function EventoPrincipal() {
   const [eventoEsperado, setEventoEsperado] = useState<Evento | null>(null);
   const [carregando, setCarregando] = useState(true);
 
+  const router = useRouter();
+
   const fetchEvento = async () => {
-    const response = await pegarTodosEventos();
-    const todosOsEventos: Evento[] = response;
-    const evento = todosOsEventos.find((event) => event.id === 2);
-    setEventoEsperado(evento || null);
+    const response = await pegarEventoDestaque();
+    setEventoEsperado(response);
     setCarregando(false);
   };
 
@@ -34,7 +34,7 @@ export default function EventoPrincipal() {
       </div>
 
       {carregando ? (
-        <Skeleton className="w-full md:max-w-7xl h-[400px] bg-[#e6e6e7] rounded-2xl" />
+        <Skeleton className="w-full md:max-w-7xl h-[400px] rounded-2xl" />
       ) : (
         eventoEsperado && (
           <div className="w-full md:max-w-7xl h-full md:h-[400px] flex flex-col md:flex-row justify-start items-center bg-[#e6e6e7] shadow rounded-2xl">
@@ -57,14 +57,17 @@ export default function EventoPrincipal() {
                 </div>
 
                 <div className="w-full h-auto">
-                  <p className="text-2xl text-slate-900 font-semibold">
+                  <p className="xl:text-xl lg:text-lg md:text-sm text-slate-900 font-semibold">
                     {eventoEsperado.titulo}
                   </p>
                 </div>
               </div>
 
               <div className="w-full h-auto">
-                <Button className="w-[200px] h-[60px] bg-[#ccc] text-slate-900 text-base hover:bg-slate-900 hover:text-white">
+                <Button
+                  onClick={() => router.push(`/eventos/${eventoEsperado.id}`)}
+                  className="lg:w-[200px] lg:h-[60px] w-[150px] h-[40px] bg-[#ccc] text-slate-900 text-base hover:bg-slate-900 hover:text-white"
+                >
                   Mais Detalhes
                 </Button>
               </div>
