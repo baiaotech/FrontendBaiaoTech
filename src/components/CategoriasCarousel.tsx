@@ -85,9 +85,9 @@ export default function CategoriasCarousel() {
               <Link
                 href={`/categorias/${category.genero}`}
                 key={category.id}
-                className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl transition"
+                className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl"
               >
-                <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500">
+                <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 transition">
                   <h3 className="text-sm text-slate-900 font-bold">
                     {category.genero}
                   </h3>
