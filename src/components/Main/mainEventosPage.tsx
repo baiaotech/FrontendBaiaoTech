@@ -16,7 +16,6 @@ export default function MainEventosPage() {
     setCarregando(true);
     try {
       const response = await pegarTodosEventos();
-      console.log(response);
       setEventos(response);
     } catch (error) {
       console.error("Erro ao buscar eventos:", error);
