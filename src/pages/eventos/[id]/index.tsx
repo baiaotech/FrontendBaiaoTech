@@ -22,7 +22,6 @@ export default function EventoPage() {
           (idEvento: Evento) => idEvento.id === Number(id)
         );
         setEvento(eventoPorId || null);
-        console.log(response);
       } catch (error) {
         console.error(error);
       }
