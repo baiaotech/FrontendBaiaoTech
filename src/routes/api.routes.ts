@@ -1,13 +1,12 @@
+"use server";
 import { api, comunidadeApi } from "@/services/api";
-
-const msgErroRequisicao = "Problema na requisição com a API";
 
 export async function pegarTodosEventos() {
   try {
     const response = await api.get("/eventos");
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -17,10 +16,10 @@ export async function pegarTodosEventos() {
 
 export async function pegarEventoPorId(id: number) {
   try {
-    const response = await api.get(`/eventos/delete/${id}`);
+    const response = await api.get(`/eventos/${id}`);
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -28,7 +27,44 @@ export async function pegarEventoPorId(id: number) {
   }
 }
 
-// Fazer um objeto com if e elses para definir a filtragem correta
+export async function pegarEventoPorTitulo(titulo: string) {
+  try {
+    const response = await api.get(`/eventos/filter/?titulo=${titulo}`);
+    const data = response.data;
+
+    if (!data) throw new Error("Erro na requisição");
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function filtrarEventoPorGenero(genero: string) {
+  try {
+    const response = await api.get(`/eventos/filter/?genero=${genero}`);
+    const data = response.data;
+
+    if (!data) throw new Error("Erro na requisição");
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function pegarEventoDestaque() {
+  try {
+    const response = await api.get("/eventos/destaque");
+    const data = response.data;
+
+    if (!data) throw new Error("Erro na requisição");
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export async function filtrarEventos(
   dataEvento?: string,
@@ -48,7 +84,7 @@ export async function filtrarEventos(
     );
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -61,11 +97,26 @@ export async function filtrarEventoPorTitulo(titulo: string) {
     const response = await api.get(`/eventos/filter/?titulo=${titulo}`);
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function filtrarEventoPorPesquisa(termo: string) {
+  try {
+    const response = await api.get(`/eventos/search${termo ? `/?q=${termo}` : "/"}`);
+
+    const data = response.data;
+
+    if (!data) throw new Error("Erro na requisição");
+
+    return data;
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    return [];
   }
 }
 
@@ -74,7 +125,7 @@ export async function criarEvento() {
     const response = await api.post("/eventos/novo");
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -87,7 +138,7 @@ export async function editarEvento(id: number) {
     const response = await api.put(`/eventos/edit/${id}`);
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -100,7 +151,7 @@ export async function atualizarEvento(id: number) {
     const response = await api.patch(`/eventos/edit/${id}`);
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -113,7 +164,7 @@ export async function deletarEvento(id: number) {
     const response = await api.delete(`/eventos/delete/${id}`);
     const data = response.data;
 
-    if (!data) throw msgErroRequisicao;
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
@@ -123,10 +174,12 @@ export async function deletarEvento(id: number) {
 
 export async function pegarTodasAsComunidades() {
   try {
-    const response = await comunidadeApi.get(`${process.env.COMMUNITY_API_URL}`);
+    const response = await comunidadeApi.get(
+      `${process.env.COMMUNITY_API_URL}`
+    );
     const data = response.data;
 
-    if (!data) throw new Error("Erro ao buscar os dados");
+    if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
