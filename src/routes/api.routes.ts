@@ -175,7 +175,7 @@ export async function deletarEvento(id: number) {
 export async function pegarTodasAsComunidades() {
   try {
     const response = await comunidadeApi.get(
-      `${process.env.COMMUNITY_API_URL}`
+      `${process.env.NEXT_PUBLIC_COMMUNITY_API_URL}`
     );
     const data = response.data;
 
