@@ -57,7 +57,7 @@ export default function EventoPrincipal() {
                 </div>
 
                 <div className="w-full h-auto">
-                  <p className="xl:text-xl lg:text-lg md:text-sm text-slate-900 font-semibold">
+                  <p className="xl:text-xl lg:text-lg md:text-sm text-slate-900 font-semibold capitalize">
                     {eventoEsperado.titulo}
                   </p>
                 </div>
