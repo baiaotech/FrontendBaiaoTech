@@ -17,10 +17,10 @@ export default function MainCategoriasPage() {
             {categorias.map((categoria) => (
               <Link
                 href={`/categorias/${categoria.genero}`}
-                className="md:w-[180px] w-[120px] h-[80px] md:h-[150px] flex items-center justify-center rounded-2xl transition"
+                className="md:w-[180px] w-[120px] h-[80px] md:h-[150px] flex items-center justify-center rounded-2xl"
                 key={categoria.id}
               >
-                <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500">
+                <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 transition">
                   <h3 className="md:text-sm text-xs text-slate-900 font-bold">
                     {categoria.genero}
                   </h3>
