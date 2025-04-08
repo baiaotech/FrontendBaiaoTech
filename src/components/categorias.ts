@@ -20,92 +20,92 @@ import othersIcon from "@/assets/categorias_icons/18.svg"
 export const categorias = [
     {
         id: 1,
-        nome: "Frontend",
+        genero: "Frontend",
         imagem: frontendIcon
     },
     {
         id: 2,
-        nome: "Backend",
+        genero: "Backend",
         imagem: backendIcon
     },
     {
         id: 3,
-        nome: "Fullstack",
+        genero: "Fullstack",
         imagem: fullstackIcon
     },
     {
         id: 4,
-        nome: "Mobile",
+        genero: "Mobile",
         imagem: mobileIcon
     },
     {
         id: 5,
-        nome: "DevOps",
+        genero: "DevOps",
         imagem: devopsIcon
     },
     {
         id: 6,
-        nome: "Gestão",
+        genero: "Gestão",
         imagem: itManagementIcon
     },
     {
         id: 7,
-        nome: "UX & UI",
+        genero: "UX & UI",
         imagem: ui_uxIcon
     },
     {
         id: 8,
-        nome: "Data Science",
+        genero: "Data Science",
         imagem: dataScienceIcon
     },
     {
         id: 9,
-        nome: "IA",
+        genero: "IA",
         imagem: iaIcon
     },
     {
         id: 10,
-        nome: "Cloud",
+        genero: "Cloud",
         imagem: cloudIcon
     },
     {
         id: 11,
-        nome: "Segurança",
+        genero: "Segurança",
         imagem: cyberSecIcon
     },
     {
         id: 12,
-        nome: "Blockchain",
+        genero: "Blockchain",
         imagem: blockchainIcon
     },
     {
         id: 13,
-        nome: "Big Data",
+        genero: "Big Data",
         imagem: bigDataIcon
     },
     {
         id: 14,
-        nome: "Agile",
+        genero: "Agile",
         imagem: agileIcon
     },
     {
         id: 15,
-        nome: "Open Source",
+        genero: "Open Source",
         imagem: openSourceIcon
     },
     {
         id: 16,
-        nome: "Inovação",
+        genero: "Inovação",
         imagem: innovationIcon
     },
     {
         id: 17,
-        nome: "Games",
+        genero: "Games",
         imagem: gamesIcon
     },
     {
         id: 18,
-        nome: "Outros",
+        genero: "Outros",
         imagem: othersIcon
     },
 ]
