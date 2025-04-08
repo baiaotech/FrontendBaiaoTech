@@ -14,7 +14,6 @@ export default function MainComunidades() {
     try {
       const response = await pegarTodasAsComunidades();
       setComunidade(response);
-      console.log(response);
       setCarregando(false);
     } catch (error) {
       console.error(error);
