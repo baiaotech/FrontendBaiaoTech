@@ -95,7 +95,7 @@ export default function Footer() {
                     href="/"
                     className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                   >
-                    {i.nome}
+                    {i.genero}
                   </Link>
                 </li>
               ))}
