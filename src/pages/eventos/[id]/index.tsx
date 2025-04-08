@@ -51,7 +51,7 @@ export default function EventoPage() {
           <div className="w-full h-auto flex flex-col mt-5">
             <div className="w-full h-auto flex flex-row justify-between items-start">
               <div className="flex flex-col">
-                <h1 className="text-2xl font-bold">{evento.titulo}</h1>
+                <h1 className="text-2xl font-bold capitalize">{evento.titulo}</h1>
                 <p className="text-lg font-semibold">{evento.genero}</p>
               </div>
 
