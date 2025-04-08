@@ -27,11 +27,13 @@ export default function ProximosEventos() {
   };
 
   const updateItemsPerPage = () => {
-    if (window.innerWidth <= 768) {
-      setEventoPorPagina(2);
-    } else {
-      setEventoPorPagina(4);
-    }
+    const largura = window.innerWidth;
+
+    if (largura <= 425) setEventoPorPagina(1);
+    else if (largura <= 768) setEventoPorPagina(2);
+    else if (largura <= 1024) setEventoPorPagina(3);
+    else if (largura <= 1200) setEventoPorPagina(4);
+    else setEventoPorPagina(4);
   };
 
   useEffect(() => {
@@ -135,9 +137,9 @@ export default function ProximosEventos() {
           : eventoAtualIndex + eventoPorPagina >= evento.length && (
               <Link
                 href="/eventos"
-                className="w-72 min-h-64 flex flex-col justify-center items-center rounded-2xl"
+                className="w-32 md:w-72 h-64 flex flex-col justify-center items-center rounded-2xl"
               >
-                <div className="size-20 rounded-full border-1 border-slate-700">
+                <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
                   <Image
                     className="w-full h-full object-cover rounded-full p-2"
                     src={ArrowRightIcon}
@@ -145,8 +147,8 @@ export default function ProximosEventos() {
                   />
                 </div>
 
-                <div className="w-full h-auto">
-                  <p className="w-full h-auto flex justify-center items-center">
+                <div className="w-full h-auto flex justify-center items-center">
+                  <p className="md:text-sm text-xs text-slate-900 font-bold">
                     Ver Mais
                   </p>
                 </div>

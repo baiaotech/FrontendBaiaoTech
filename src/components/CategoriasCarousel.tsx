@@ -14,7 +14,7 @@ export default function CategoriasCarousel() {
 
   const updateItemsPerPage = () => {
     const largura = window.innerWidth;
-    if (largura <= 425) setItemsPorPagina(3);
+    if (largura <= 425) setItemsPorPagina(2);
     else if (largura <= 768) setItemsPorPagina(4);
     else if (largura <= 1024) setItemsPorPagina(6);
     else if (largura <= 1200) setItemsPorPagina(8);
