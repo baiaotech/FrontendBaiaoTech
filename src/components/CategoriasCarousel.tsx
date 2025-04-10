@@ -53,7 +53,7 @@ export default function CategoriasCarousel() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="w-full h-16 flex justify-between items-center">
-        <p className="text-2xl text-slate-900 font-bold">Categorias</p>
+        <p className="md:text-2xl text-slate-900 font-bold">Categorias</p>
 
         <div className="flex gap-4">
           <button

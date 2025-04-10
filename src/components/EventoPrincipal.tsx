@@ -30,7 +30,7 @@ export default function EventoPrincipal() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="w-full h-16 flex justify-start items-center">
-        <p className="text-2xl text-slate-900 font-bold">Evento Principal</p>
+        <p className="md:text-2xl text-slate-900 font-bold">Evento Principal</p>
       </div>
 
       {carregando ? (

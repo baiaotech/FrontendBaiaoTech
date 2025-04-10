@@ -17,7 +17,7 @@ export default function ProximosEventos() {
   const fetchEventos = async () => {
     try {
       const response = await pegarTodosEventos();
-      setEvento(response);
+      setEvento(response || []);
 
       setCarregando(false);
     } catch (error) {
@@ -69,7 +69,7 @@ export default function ProximosEventos() {
   return (
     <div className="w-full flex flex-col justify-center items-center my-10">
       <div className="w-full h-16 flex justify-between items-center">
-        <p className="text-2xl text-slate-900 font-bold">Próximos Eventos</p>
+        <p className="md:text-2xl text-slate-900 font-bold">Próximos Eventos</p>
 
         <div className="w-auto flex flex-row gap-4">
           <button
