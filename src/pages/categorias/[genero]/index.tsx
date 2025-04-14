@@ -38,6 +38,55 @@ export default function CategoriaPorGenero() {
     }
   }, [generoEvento]);
 
+  const renderSkeleton = () =>
+    Array.from({ length: 3 }).map((_, index) => <SkeletonCard key={index} />);
+
+  const renderEventos = () =>
+    eventos.map((evento) => (
+      <Link
+        href={`/eventos/${evento.id}`}
+        className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
+        key={evento.id}
+      >
+        <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
+          <Image
+            className="size-full object-cover rounded-t-2xl"
+            src={evento.cover_photo_url}
+            alt={evento.titulo}
+            width={300}
+            height={300}
+          />
+        </div>
+
+        <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
+          <div className="w-full h-auto mb-2">
+            <h3 className="text-xs text-orange-500 text-left font-semibold capitalize mb-2">
+              {evento.data}
+            </h3>
+
+            <h3 className="text-sm text-slate-900 text-left font-semibold capitalize mb-2">
+              {evento.titulo}
+            </h3>
+          </div>
+
+          <div className="w-full max-h-8">
+            <h3 className="text-xs text-slate-900 text-left font-semibold capitalize">
+              {evento.local}
+            </h3>
+          </div>
+        </div>
+      </Link>
+    ));
+
+  const renderNenhumEvento = () =>
+    eventos.length === 0 && (
+      <div className="w-full h-40 flex justify-center items-center">
+        <h1 className="text-2xl font-bold text-slate-900">
+          Nenhum evento encontrado
+        </h1>
+      </div>
+    );
+
   return (
     <>
       <Header />
@@ -65,53 +114,8 @@ export default function CategoriaPorGenero() {
           </div>
 
           <div className="w-full h-auto flex flex-row flex-wrap justify-center items-start p-3 md:gap-10 gap-3">
-            {carregando ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
-            ) : eventos.length === 0 ? (
-              <div className="w-full h-40 flex justify-center items-center">
-                <h1 className="text-2xl font-bold text-slate-900">
-                  Nenhum evento encontrado
-                </h1>
-              </div>
-            ) : (
-              eventos.map((evento) => (
-                <Link
-                  href={`/eventos/${evento.id}`}
-                  className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
-                  key={evento.id}
-                >
-                  <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
-                    <Image
-                      className="size-full object-cover rounded-t-2xl"
-                      src={evento.cover_photo_url}
-                      alt={evento.titulo}
-                      width={300}
-                      height={300}
-                    />
-                  </div>
-
-                  <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
-                    <div className="w-full h-auto mb-2">
-                      <h3 className="text-xs text-orange-500 text-left font-semibold capitalize mb-2">
-                        {evento.data}
-                      </h3>
-
-                      <h3 className="text-sm text-slate-900 text-left font-semibold capitalize mb-2">
-                        {evento.titulo}
-                      </h3>
-                    </div>
-
-                    <div className="w-full max-h-8">
-                      <h3 className="text-xs text-slate-900 text-left font-semibold capitalize">
-                        {evento.local}
-                      </h3>
-                    </div>
-                  </div>
-                </Link>
-              ))
-            )}
+            {carregando ? renderSkeleton() : renderEventos()}
+            {carregando ? renderEventos() : renderNenhumEvento()}
           </div>
         </div>
       </main>

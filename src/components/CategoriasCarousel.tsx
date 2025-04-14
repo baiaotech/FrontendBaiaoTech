@@ -5,7 +5,7 @@ import ArrowRightIcon from "@/assets/arrow-right.svg";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
+import SkeletonCard from "./skeletonCard";
 
 export default function CategoriasCarousel() {
   const [categoriaAtualIndex, setCategoriaAtualIndex] = useState(0);
@@ -50,6 +50,48 @@ export default function CategoriasCarousel() {
     }
   };
 
+  const renderSkeleton = () =>
+    Array.from({ length: itemsPorPagina }).map((_, index) => (
+      <SkeletonCard key={index} />
+    ));
+
+  const renderCategorias = () =>
+    visibleCategories.map((categoria) => (
+      <Link
+        href={`/categorias/${categoria.genero}`}
+        key={categoria.id}
+        className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl"
+      >
+        <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 transition">
+          <h3 className="text-sm text-slate-900 font-bold">
+            {categoria.genero}
+          </h3>
+        </div>
+      </Link>
+    ));
+
+  const renderVerMais = () =>
+    categoriaAtualIndex + itemsPorPagina >= categorias.length && (
+      <Link
+        href="/categorias"
+        className="w-[180px] h-[150px] flex flex-col justify-center items-center rounded-2xl"
+      >
+        <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
+          <Image
+            className="w-full h-full object-cover rounded-full p-2"
+            src={ArrowRightIcon}
+            alt="icone para pagina dos eventos"
+          />
+        </div>
+
+        <div className="w-full h-auto flex justify-center items-center">
+          <p className="md:text-sm text-xs text-slate-900 font-bold">
+            Ver Mais
+          </p>
+        </div>
+      </Link>
+    );
+
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="w-full h-16 flex justify-between items-center">
@@ -74,54 +116,8 @@ export default function CategoriasCarousel() {
       </div>
 
       <div className="w-full flex gap-3 mt-4">
-        {carregando
-          ? Array.from({ length: itemsPorPagina }).map((_, index) => (
-              <Skeleton
-                key={index}
-                className="w-[180px] h-[150px] rounded-2xl"
-              />
-            ))
-          : visibleCategories.map((category) => (
-              <Link
-                href={`/categorias/${category.genero}`}
-                key={category.id}
-                className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl"
-              >
-                <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 transition">
-                  <h3 className="text-sm text-slate-900 font-bold">
-                    {category.genero}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-
-        {carregando
-          ? Array.from({ length: itemsPorPagina }).map((_, index) => (
-              <Skeleton
-                key={index}
-                className="w-[180px] h-[150px] rounded-2xl"
-              />
-            ))
-          : categoriaAtualIndex + itemsPorPagina >= categorias.length && (
-              <Link
-                href="/categorias"
-                className="w-[180px] h-[150px] flex flex-col justify-center items-center rounded-2xl"
-              >
-                <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
-                  <Image
-                    className="w-full h-full object-cover rounded-full p-2"
-                    src={ArrowRightIcon}
-                    alt="icone para pagina dos eventos"
-                  />
-                </div>
-
-                <div className="w-full h-auto flex justify-center items-center">
-                  <p className="md:text-sm text-xs text-slate-900 font-bold">
-                    Ver Mais
-                  </p>
-                </div>
-              </Link>
-            )}
+        {carregando ? renderSkeleton() : renderCategorias()}
+        {!carregando && renderVerMais()}
       </div>
     </div>
   );

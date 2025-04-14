@@ -18,7 +18,6 @@ export default function ProximosEventos() {
     try {
       const response = await pegarTodosEventos();
       setEvento(response || []);
-
       setCarregando(false);
     } catch (error) {
       console.error(error);
@@ -66,6 +65,80 @@ export default function ProximosEventos() {
     }
   };
 
+  const renderSkeleton = () =>
+    Array.from({ length: eventoPorPagina }).map((_, index) => (
+      <SkeletonCard key={index} />
+    ));
+
+  const renderEventos = () =>
+    visibleEvents.map((evento) => (
+      <Link
+        href={`/eventos/${evento.id}`}
+        className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
+        key={evento.id}
+      >
+        <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
+          <Image
+            className="size-full object-cover rounded-t-2xl"
+            src={evento.cover_photo_url}
+            alt={evento.titulo}
+            width={100}
+            height={100}
+          />
+        </div>
+
+        <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
+          <div className="w-full h-auto mb-2">
+            <h3 className="text-xs text-orange-500 text-left font-semibold capitalize mb-2">
+              {evento.data}
+            </h3>
+
+            <h3 className="text-sm text-slate-900 text-left font-semibold capitalize mb-2">
+              {evento.titulo}
+            </h3>
+          </div>
+
+          <div className="w-full max-h-8">
+            <h3 className="text-xs text-slate-900 text-left font-semibold capitalize">
+              {evento.local}
+            </h3>
+          </div>
+        </div>
+      </Link>
+    ));
+
+  const renderVerMais = () =>
+    visibleEvents.length > 0 &&
+    eventoAtualIndex + eventoPorPagina >= evento.length && (
+      <Link
+        href="/eventos"
+        className="w-32 md:w-72 h-64 flex flex-col justify-center items-center rounded-2xl"
+      >
+        <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
+          <Image
+            className="w-full h-full object-cover rounded-full p-2"
+            src={ArrowRightIcon}
+            alt="icone para pagina dos eventos"
+          />
+        </div>
+        <div className="w-full h-auto flex justify-center items-center">
+          <p className="md:text-sm text-xs text-slate-900 font-bold">
+            Ver Mais
+          </p>
+        </div>
+      </Link>
+    );
+
+  const renderNenhumEvento = () =>
+    !carregando &&
+    visibleEvents.length === 0 && (
+      <div className="w-full h-full flex flex-row justify-start items-start gap-10">
+        <div className="flex justify-center items-center">
+          <p className="text-base font-bold">Nenhum evento encontrado</p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="w-full flex flex-col justify-center items-center my-10">
       <div className="w-full h-16 flex justify-between items-center">
@@ -90,70 +163,9 @@ export default function ProximosEventos() {
       </div>
 
       <div className="w-full h-full flex flex-row justify-start items-start gap-10">
-        {carregando
-          ? Array.from({ length: eventoPorPagina }).map((_, index) => (
-              <SkeletonCard key={index} />
-            ))
-          : visibleEvents.map((evento) => (
-              <Link
-                href={`/eventos/${evento.id}`}
-                className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
-                key={evento.id}
-              >
-                <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
-                  <Image
-                    className="size-full object-cover rounded-t-2xl"
-                    src={evento.cover_photo_url}
-                    alt={evento.titulo}
-                    width={100}
-                    height={100}
-                  />
-                </div>
-
-                <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
-                  <div className="w-full h-auto mb-2">
-                    <h3 className="text-xs text-orange-500 text-left font-semibold capitalize mb-2">
-                      {evento.data}
-                    </h3>
-
-                    <h3 className="text-sm text-slate-900 text-left font-semibold capitalize mb-2">
-                      {evento.titulo}
-                    </h3>
-                  </div>
-
-                  <div className="w-full max-h-8">
-                    <h3 className="text-xs text-slate-900 text-left font-semibold capitalize">
-                      {evento.local}
-                    </h3>
-                  </div>
-                </div>
-              </Link>
-            ))}
-
-        {carregando
-          ? Array.from({ length: eventoPorPagina }).map((_, index) => (
-              <SkeletonCard key={index} />
-            ))
-          : eventoAtualIndex + eventoPorPagina >= evento.length && (
-              <Link
-                href="/eventos"
-                className="w-32 md:w-72 h-64 flex flex-col justify-center items-center rounded-2xl"
-              >
-                <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
-                  <Image
-                    className="w-full h-full object-cover rounded-full p-2"
-                    src={ArrowRightIcon}
-                    alt="icone para pagina dos eventos"
-                  />
-                </div>
-
-                <div className="w-full h-auto flex justify-center items-center">
-                  <p className="md:text-sm text-xs text-slate-900 font-bold">
-                    Ver Mais
-                  </p>
-                </div>
-              </Link>
-            )}
+        {carregando ? renderSkeleton() : renderEventos()}
+        {!carregando && renderVerMais()}
+        {renderNenhumEvento()}
       </div>
     </div>
   );
