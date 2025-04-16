@@ -8,7 +8,7 @@ import { categorias } from "@/components/categorias";
 
 export default function FilterButton() {
   return (
-    <div className="min-w-54 h-auto absolute top-66 bg-[#e6e6e7] rounded-2xl p-3">
+    <div className="min-w-54 h-auto absolute top-66 bg-[#e6e6e7] rounded-2xl p-3 shadow">
       <Accordion className="w-full min-h-auto" type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-base font-semibold">
