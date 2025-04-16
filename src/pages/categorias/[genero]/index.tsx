@@ -10,10 +10,12 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import filterIcon from "@/assets/filter.svg";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
+import FilterButton from "@/components/FilterButton";
 
 export default function CategoriaPorGenero() {
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [filterBtnOpen, setFilterBtnOpen] = useState(false);
 
   const params = useParams<{ genero: string }>();
   const genero = params?.genero || "";
@@ -37,6 +39,10 @@ export default function CategoriaPorGenero() {
       eventosPorGenero(generoEvento);
     }
   }, [generoEvento]);
+
+  const handleFilterButton = () => {
+    setFilterBtnOpen(!filterBtnOpen);
+  };
 
   const renderSkeleton = () =>
     Array.from({ length: 3 }).map((_, index) => <SkeletonCard key={index} />);
@@ -100,14 +106,21 @@ export default function CategoriaPorGenero() {
             {eventos.length > 0 && (
               <div className="w-full flex flex-row justify-between mt-5">
                 <div className="min-w-20 h-10 flex justify-center items-center">
-                  <button className="w-32 h-10 text-base font-semibold bg-[#e6e6e7] hover:bg-orange-500 transition rounded-2xl shadow flex justify-center items-center gap-2">
+                  <button 
+                    className="w-32 h-10 text-base font-semibold bg-[#e6e6e7] hover:bg-orange-500 transition rounded-2xl shadow flex justify-center items-center gap-2"
+                    onClick={handleFilterButton}
+                  >
                     <Image
                       src={filterIcon}
                       alt="Ícone do filtro"
                       className="w-5"
                     />
-                    Filtro
+                    <span className="hidden md:block">Filtro</span>
                   </button>
+
+                  {/* Dropdown */}
+                  
+                  {filterBtnOpen && <FilterButton />}
                 </div>
               </div>
             )}
