@@ -7,6 +7,7 @@ import ArrowRightIcon from "@/assets/arrow-right.svg";
 import Link from "next/link";
 import SkeletonCard from "@/components/skeletonCard";
 import { Evento } from "@/types";
+import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function ProximosEventos() {
   const [evento, setEvento] = useState<Evento[]>([]);
@@ -77,14 +78,18 @@ export default function ProximosEventos() {
         className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         key={evento.id}
       >
-        <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
-          <Image
-            className="size-full object-cover rounded-t-2xl"
-            src={evento.cover_photo_url}
-            alt={evento.titulo}
-            width={100}
-            height={100}
-          />
+        <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
+          {evento?.cover_photo_url ? (
+            <img
+              src={!evento.cover_photo_url ? imageTemplate : evento.cover_photo_url}
+              alt="imagem do evento"
+              width={1000}
+              height={1000}
+              className="w-full h-full object-cover rounded-t-2xl md:rounded-l-2xl"
+            />
+          ) : (
+            <div className="w-full h-full bg-slate-900 flex items-center justify-center rounded-t-2xl md:rounded-l-2xl"></div>
+          )}
         </div>
 
         <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">

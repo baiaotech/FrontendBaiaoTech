@@ -40,29 +40,20 @@ export async function pegarEventoPorTitulo(titulo: string) {
   }
 }
 
-export async function filtrarEventoPorGenero(genero: string) {
-  try {
-    const response = await api.get(`/eventos/filter/?genero=${genero}`);
-    const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export async function pegarEventoDestaque() {
   try {
     const response = await api.get("/eventos/destaque");
     const data = response.data;
 
-    if (!data) throw new Error("Erro na requisição");
+    // Se vier um objeto com campo "error", retornar null
+    if (data?.error) {
+      return null;
+    }
 
     return data;
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao buscar evento em destaque:", error);
+    return null; // evita que o erro quebre o frontend
   }
 }
 
@@ -92,9 +83,26 @@ export async function filtrarEventos(
   }
 }
 
-export async function filtrarEventoPorTitulo(titulo: string) {
+export async function filtrarEventoPorPesquisa(termo: string) {
   try {
-    const response = await api.get(`/eventos/filter/?titulo=${titulo}`);
+    const response = await api.get(
+      `/eventos/search/${termo ? `?q=${termo}` : ""}`
+    );
+
+    const data = response.data;
+
+    if (!data) throw new Error("Erro na requisição");
+
+    return data;
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    return [];
+  }
+}
+
+export async function filtrarEventoPorGenero(genero: string) {
+  try {
+    const response = await api.get(`/eventos/filter/?genero=${genero}`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -105,18 +113,16 @@ export async function filtrarEventoPorTitulo(titulo: string) {
   }
 }
 
-export async function filtrarEventoPorPesquisa(termo: string) {
+export async function filtrarEventoPorTitulo(titulo: string) {
   try {
-    const response = await api.get(`/eventos/search${termo ? `/?q=${termo}` : "/"}`);
-
+    const response = await api.get(`/eventos/filter/?titulo=${titulo}`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
 
     return data;
   } catch (error) {
-    console.error("Erro na requisição:", error);
-    return [];
+    console.error(error);
   }
 }
 

@@ -6,8 +6,8 @@ import { pegarTodosEventos } from "@/routes/api.routes";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Evento } from "@/types";
-import Image from "next/image";
 import Link from "next/link";
+import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function EventoPage() {
   const [evento, setEvento] = useState<Evento | null>(null);
@@ -38,28 +38,43 @@ export default function EventoPage() {
       <main className="w-full flex justify-center items-start p-5">
         <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
           <div className="w-full flex justify-center items-center">
-            <Image
-              className="w-full h-[400px] rounded-2xl"
-              src={evento.cover_photo_url}
-              alt="imagem do evento"
-              width={500}
-              height={500}
-            />
+            {evento.cover_photo_url ? (
+              <img
+                className="w-full h-[400px] rounded-2xl"
+                src={evento.cover_photo_url || imageTemplate}
+                alt="imagem do evento"
+                width={500}
+                height={500}
+              />
+            ) : (
+              <div className="w-full h-[400px] bg-slate-900 rounded-2xl"></div>
+            )}
           </div>
 
           <div className="w-full h-auto flex flex-col mt-5">
             <div className="w-full h-auto flex flex-row justify-between items-start">
               <div className="flex flex-col">
-                <h1 className="text-2xl font-bold capitalize">{evento.titulo}</h1>
-                <p className="text-lg font-semibold capitalize">{evento.genero}</p>
+                <h1 className="text-2xl font-bold capitalize">
+                  {evento.titulo}
+                </h1>
+                <Link
+                  href={`/categorias/${evento.genero}`}
+                  className="text-lg font-semibold capitalize"
+                >
+                  {evento.genero}
+                </Link>
               </div>
 
               <div className="flex flex-col justify-center items-start p-1.5">
                 <p className="text-md font-semibold text-orange-500 capitalize">
                   {evento.data}
                 </p>
-                <p className="text-md font-semibold capitalize">{evento.local}</p>
-                <p className="text-md font-semibold capitalize">{evento.organizacao}</p>
+                <p className="text-md font-semibold capitalize">
+                  {evento.local}
+                </p>
+                <p className="text-md font-semibold capitalize">
+                  {evento.organizacao}
+                </p>
               </div>
             </div>
 

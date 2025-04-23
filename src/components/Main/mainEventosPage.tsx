@@ -2,22 +2,23 @@
 import { Evento } from "@/types";
 import { useEffect, useState } from "react";
 import filterIcon from "@/assets/filter.svg";
-import lupaIcon from "@/assets/lupa.svg";
 import SkeletonCard from "@/components/skeletonCard";
-import Image from "next/image";
-import { pegarTodosEventos } from "@/routes/api.routes";
 import Link from "next/link";
+import { filtrarEventoPorPesquisa, filtrarEventos } from "@/routes/api.routes"; // já deve estar importando
 import FilterButton from "@/components/FilterButton";
+import Image from "next/image";
+import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function MainEventosPage() {
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [filterBtnOpen, setFilterBtnOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
-  const buscarEventos = async () => {
+  const buscarEventos = async (termo: string) => {
     setCarregando(true);
     try {
-      const response = await pegarTodosEventos();
+      const response = await filtrarEventoPorPesquisa(termo);
       setEventos(response);
     } catch (error) {
       console.error("Erro ao buscar eventos:", error);
@@ -28,11 +29,33 @@ export default function MainEventosPage() {
   };
 
   useEffect(() => {
-    buscarEventos();
-  }, []);
+    buscarEventos(search);
+  }, [search]);
 
   const handleFilterButton = () => {
     setFilterBtnOpen(!filterBtnOpen);
+  };
+
+  const aplicarFiltros = async (generosSelecionados: string[]) => {
+    setCarregando(true);
+    try {
+      // Você pode estender isso para aceitar outros filtros depois
+      const response = await filtrarEventos(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        generosSelecionados.join(","),
+        undefined
+      );
+      setEventos(response);
+    } catch (error) {
+      console.error("Erro ao aplicar filtros:", error);
+      setEventos([]);
+    } finally {
+      setCarregando(false);
+      setFilterBtnOpen(false);
+    }
   };
 
   const renderSkeleton = () =>
@@ -45,14 +68,18 @@ export default function MainEventosPage() {
         className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         key={evento.id}
       >
-        <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
-          <Image
+        <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
+          {evento.cover_photo_url ? (
+            <img
             className="size-full object-cover rounded-t-2xl"
-            src={evento.cover_photo_url}
+            src={!evento.cover_photo_url ? imageTemplate : evento.cover_photo_url}
             alt={evento.titulo}
             width={300}
             height={300}
           />
+          ) : (
+            <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl"></div>
+          )}
         </div>
 
         <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
@@ -96,39 +123,36 @@ export default function MainEventosPage() {
               Conheça nossos próximos eventos
             </p>
           </div>
-
-          {eventos.length > 0 && (
-            <div className="w-full flex flex-row justify-between items-center mt-5">
-              <div className="min-w-56 h-10 flex justify-start items-center">
-                <input
-                  className="w-52 h-10 md:w-96 p-1 md:p-2 text-base font-medium bg-[#e6e6e7] border-r-1 border-slate-400 placeholder:font-bold rounded-l-lg"
-                  type="text"
-                  placeholder="Buscar"
-                />
-                <button className="w-13 h-10 rounded-r-lg bg-[#e6e6e7] flex justify-center items-center">
-                  <Image src={lupaIcon} alt="Ícone da lupa" className="w-5" />
-                </button>
-              </div>
-
-              <div className="min-w-20 h-10 flex justify-center items-center">
-                <button
-                  className="w-16 md:w-32 h-10 text-base font-semibold bg-[#e6e6e7] hover:bg-orange-500 transition rounded-2xl shadow flex justify-center items-center gap-2"
-                  onClick={handleFilterButton}
-                >
-                  <Image
-                    src={filterIcon}
-                    alt="Ícone do filtro"
-                    className="w-5"
-                  />
-                  <span className="hidden md:block">Filtro</span>
-                </button>
-
-                {/* Dropdown */}
-
-                {filterBtnOpen && <FilterButton />}
-              </div>
+          <div className="w-full flex flex-row justify-between items-center mt-5">
+            <div className="min-w-56 h-10 flex justify-start items-center">
+              <input
+                className="w-52 h-10 md:w-96 p-1 md:p-2 text-base font-medium bg-[#e6e6e7] placeholder:font-bold rounded-lg"
+                type="text"
+                placeholder="Buscar"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    buscarEventos(search);
+                  }
+                }}
+              />
             </div>
-          )}
+
+            <div className="min-w-20 h-10 flex justify-center items-center">
+              <button
+                className="w-16 md:w-32 h-10 text-base font-semibold bg-[#e6e6e7] hover:bg-orange-500 transition rounded-2xl shadow flex justify-center items-center gap-2"
+                onClick={handleFilterButton}
+              >
+                <Image src={filterIcon} alt="Ícone do filtro" className="w-5" />
+                <span className="hidden md:block">Filtro</span>
+              </button>
+
+              {/* Dropdown */}
+
+              {filterBtnOpen && <FilterButton onFilter={aplicarFiltros} />}
+            </div>
+          </div>
         </div>
 
         <div className="w-full h-auto flex flex-row flex-wrap justify-center items-start p-3 md:gap-10 gap-3">

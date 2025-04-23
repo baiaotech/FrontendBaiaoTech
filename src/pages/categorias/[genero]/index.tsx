@@ -6,16 +6,13 @@ import { Evento } from "@/types";
 import { useState, useEffect } from "react";
 import SkeletonCard from "@/components/skeletonCard";
 import Link from "next/link";
-import Image from "next/image";
 import { useParams } from "next/navigation";
-import filterIcon from "@/assets/filter.svg";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
-import FilterButton from "@/components/FilterButton";
+import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function CategoriaPorGenero() {
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [carregando, setCarregando] = useState(true);
-  const [filterBtnOpen, setFilterBtnOpen] = useState(false);
 
   const params = useParams<{ genero: string }>();
   const genero = params?.genero || "";
@@ -40,10 +37,6 @@ export default function CategoriaPorGenero() {
     }
   }, [generoEvento]);
 
-  const handleFilterButton = () => {
-    setFilterBtnOpen(!filterBtnOpen);
-  };
-
   const renderSkeleton = () =>
     Array.from({ length: 3 }).map((_, index) => <SkeletonCard key={index} />);
 
@@ -54,14 +47,18 @@ export default function CategoriaPorGenero() {
         className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         key={evento.id}
       >
-        <div className="w-full h-[150px] bg-orange-500 rounded-t-2xl">
-          <Image
-            className="size-full object-cover rounded-t-2xl"
-            src={evento.cover_photo_url}
-            alt={evento.titulo}
-            width={300}
-            height={300}
-          />
+        <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
+          {evento?.cover_photo_url ? (
+            <img
+              src={evento.cover_photo_url || imageTemplate}
+              alt="imagem do evento"
+              width={1000}
+              height={1000}
+              className="w-full h-full object-cover rounded-t-2xl"
+            />
+          ) : (
+            <div className="w-full h-full bg-slate-900 flex items-center justify-center rounded-t-2xl"></div>
+          )}
         </div>
 
         <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
@@ -102,28 +99,6 @@ export default function CategoriaPorGenero() {
             <p className="text-slate-900 md:text-2xl text-base font-bold">
               Eventos {generoEvento}
             </p>
-
-            {eventos.length > 0 && (
-              <div className="w-full flex flex-row justify-between mt-5">
-                <div className="min-w-20 h-10 flex justify-center items-center">
-                  <button 
-                    className="w-32 h-10 text-base font-semibold bg-[#e6e6e7] hover:bg-orange-500 transition rounded-2xl shadow flex justify-center items-center gap-2"
-                    onClick={handleFilterButton}
-                  >
-                    <Image
-                      src={filterIcon}
-                      alt="Ícone do filtro"
-                      className="w-5"
-                    />
-                    <span className="hidden md:block">Filtro</span>
-                  </button>
-
-                  {/* Dropdown */}
-                  
-                  {filterBtnOpen && <FilterButton />}
-                </div>
-              </div>
-            )}
           </div>
 
           <div className="w-full h-auto flex flex-row flex-wrap justify-center items-start p-3 md:gap-10 gap-3">
