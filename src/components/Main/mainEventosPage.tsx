@@ -124,9 +124,9 @@ export default function MainEventosPage() {
             </p>
           </div>
           <div className="w-full flex flex-row justify-between items-center mt-5">
-            <div className="min-w-56 h-10 flex justify-start items-center">
+            <div className="min-w-auto max-w-96 h-10 flex justify-start items-center">
               <input
-                className="w-52 h-10 md:w-96 p-1 md:p-2 text-base font-medium bg-[#e6e6e7] placeholder:font-bold rounded-lg"
+                className="w-44 sm:w-96 h-10 p-1 md:p-2 text-base font-medium bg-[#e6e6e7] placeholder:font-bold rounded-lg"
                 type="text"
                 placeholder="Buscar"
                 value={search}
@@ -139,7 +139,7 @@ export default function MainEventosPage() {
               />
             </div>
 
-            <div className="min-w-20 h-10 flex justify-center items-center">
+            <div className="min-w-20 h-10 flex justify-center items-center relative">
               <button
                 className="w-16 md:w-32 h-10 text-base font-semibold bg-[#e6e6e7] hover:bg-orange-500 transition rounded-2xl shadow flex justify-center items-center gap-2"
                 onClick={handleFilterButton}

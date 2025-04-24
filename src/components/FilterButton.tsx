@@ -27,7 +27,7 @@ export default function FilterButton({ onFilter }: FilterButtonProps) {
   };
 
   return (
-    <div className="min-w-54 h-auto absolute top-66 bg-[#e6e6e7] rounded-2xl p-3 shadow z-10">
+    <div className="min-w-54 h-auto absolute top-15 right-0 bg-[#e6e6e7] rounded-2xl p-3 shadow z-10">
       <Accordion className="w-full min-h-auto" type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-base font-semibold">
