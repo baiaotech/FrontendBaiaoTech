@@ -10,3 +10,6 @@ services:
       - /app/node_modules # Evita sobrescrever node_modules do container
     environment:
       - NODE_ENV=development
+      - API_URL=https://baiaotech.store/api
+      - FORM_LINK=https://forms.gle/ViFkUTk9aFq7LBUg9
+      - COMMUNITY_API_URL=https://raw.githubusercontent.com/Baiao-Tech/communities/main/comunities.json
