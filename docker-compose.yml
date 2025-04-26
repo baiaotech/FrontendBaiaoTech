@@ -12,4 +12,4 @@ services:
       - NODE_ENV=development
       - API_URL=https://baiaotech.store/api
       - FORM_LINK=https://forms.gle/ViFkUTk9aFq7LBUg9
-      - COMMUNITY_API_URL=https://raw.githubusercontent.com/Baiao-Tech/communities/main/comunities.json
+      - COMMUNITY_API_URL=https://baiao-tech.github.io/communities/public/comunities.json
