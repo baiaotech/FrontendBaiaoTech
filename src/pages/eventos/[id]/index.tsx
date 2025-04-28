@@ -40,7 +40,7 @@ export default function EventoPage() {
           <div className="w-full flex justify-center items-center ">
             {evento.cover_photo_url ? (
               <img
-                className="w-full h-[400px] rounded-2xl object-contain"
+                className="w-full max-h-[400px] rounded-2xl object-contain bg-slate-900"
                 src={evento.cover_photo_url || imageTemplate}
                 alt="imagem do evento"
                 width={500}
@@ -51,7 +51,7 @@ export default function EventoPage() {
             )}
           </div>
 
-          <div className="w-full h-auto flex flex-col md:mt-5">
+          <div className="w-full h-auto flex flex-col mt-5">
             <div className="w-full h-auto flex flex-row justify-between items-start gap-3">
               <div className="flex flex-col">
                 <h1 className="text-base md:text-lg lg:text-2xl font-bold capitalize">
@@ -94,8 +94,10 @@ export default function EventoPage() {
               </div>
 
               <div className="w-full mt-5">
-                <textarea className="w-full min-h-108 text-lg text-gray-600" disabled>{evento.descricao}</textarea>
-                {/* Criar logica para o textarea se auto expandir */}
+                <div
+                  className="w-full min-h-108 text-gray-600 whitespace-pre-line text-base"
+                  dangerouslySetInnerHTML={{ __html: evento.descricao }}
+                />  
               </div>
             </div>
           </div>
