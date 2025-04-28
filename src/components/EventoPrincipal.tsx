@@ -33,22 +33,22 @@ export default function EventoPrincipal() {
   const renderEventoPrincipal = () =>
     eventoEsperado && (
       <div className="w-full md:max-w-7xl h-full md:h-[400px] flex flex-col md:flex-row justify-start items-center bg-[#e6e6e7] shadow rounded-2xl">
-        <div className="w-full md:w-[65%] h-full flex justify-center items-center rounded-t-2xl md:rounded-l-2xl">
+        <div className="w-full md:w-[65%] h-full flex justify-center items-center rounded-t-2xl md:rounded-t-none md:rounded-l-2xl">
           {eventoEsperado?.cover_photo_url ? (
             <img
               src={!eventoEsperado.cover_photo_url ? imageTemplate : eventoEsperado.cover_photo_url}
               alt="imagem do evento"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover rounded-t-2xl md:rounded-l-2xl"
+              className="w-full h-full object-cover rounded-t-2xl md:rounded-t-none md:rounded-l-2xl"
             />
           ) : (
-            <div className="w-full h-46 md:h-full bg-slate-900 rounded-t-2xl md:rounded-l-2xl"></div>
+            <div className="w-full h-46 md:h-full bg-slate-900 rounded-t-2xl md:rounded-l-2xl md:rounded-t-none"></div>
           )}
         </div>
 
         <div className="w-full md:w-[35%] h-full flex flex-col justify-between items-start rounded-b-2xl md:rounded-r-2xl gap-8 p-2">
-          <div className="w-full h-auto flex flex-col justify-start items-center">
+          <div className="w-full h-auto flex flex-col justify-start items-center gap-3">
             <div className="w-full h-auto">
               <p className="text-sm text-orange-500 font-semibold">
                 {eventoEsperado.data}
@@ -58,6 +58,12 @@ export default function EventoPrincipal() {
             <div className="w-full h-auto">
               <p className="xl:text-xl lg:text-lg md:text-sm text-slate-900 font-semibold capitalize">
                 {eventoEsperado.titulo}
+              </p>
+            </div>
+
+            <div className="w-full h-auto">
+              <p className="xl:text-base md:text-sm text-slate-900 font-medium">
+                {eventoEsperado.descricao ? eventoEsperado.descricao.substring(0, 150) + "..." : eventoEsperado.descricao}
               </p>
             </div>
           </div>
