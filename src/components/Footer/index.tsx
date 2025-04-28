@@ -92,7 +92,7 @@ export default function Footer() {
               {categorias.map((i) => (
                 <li key={i.id}>
                   <Link
-                    href="/"
+                    href={`/categorias/${i.genero}`}
                     className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                   >
                     {i.genero}
@@ -110,7 +110,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-1">
               <li>
                 <Link
-                  href={`${process.env.FORM_LINK}`}
+                  href={`${process.env.NEXT_PUBLIC_FORM_LINK}`}
                   target="_blank"
                   className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
                 >
@@ -132,33 +132,7 @@ export default function Footer() {
 
         {/* <!-- Bottom Section --> */}
         <div className="w-full min-h-[120px] border-t border-[#ccc] flex flex-col justify-start items-center">
-          <div className="w-full mt-5 flex flex-wrap justify-between items-center gap-5">
-            <div className="flex flex-row gap-8">
-              <Link
-                href="/"
-                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
-              >
-                Home
-              </Link>
-              <Link
-                href="/"
-                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
-              >
-                Termos e Políticas
-              </Link>
-              <Link
-                href="/"
-                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
-              >
-                Ética e conduta
-              </Link>
-              <Link
-                href="/"
-                className="md:text-[10px] text-[8px] text-slate-700 uppercase hover:text-orange-500"
-              >
-                Política de Direitos Humanos
-              </Link>
-            </div>
+          <div className="w-full mt-5">
             <div className="flex flex-row gap-8">
               <Link href="/">
                 <Image
