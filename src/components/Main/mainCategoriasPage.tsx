@@ -8,7 +8,7 @@ export default function MainCategoriasPage() {
         <div className="w-full h-48 p-5 flex flex-col justify-center items-center">
           <h1 className="text-3xl font-bold text-center mt-4">Categorias</h1>
           <p className="text-center mt-2">
-            Explore nossas categorias de eventos.
+            Explore as categorias de eventos.
           </p>
         </div>
 
