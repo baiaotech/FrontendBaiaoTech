@@ -15,7 +15,7 @@ export default function CategoriasCarousel() {
   const updateItemsPerPage = () => {
     const largura = window.innerWidth;
     if (largura <= 425) setItemsPorPagina(2);
-    else if (largura <= 768) setItemsPorPagina(4);
+    else if (largura <= 768) setItemsPorPagina(3);
     else if (largura <= 1024) setItemsPorPagina(6);
     else if (largura <= 1200) setItemsPorPagina(8);
     else setItemsPorPagina(8);
@@ -60,9 +60,9 @@ export default function CategoriasCarousel() {
       <Link
         href={`/categorias/${categoria.genero}`}
         key={categoria.id}
-        className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl"
+        className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-lg"
       >
-        <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 transition">
+        <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 active:bg-orange-500 transition-all duration-300 animate-fade-in">
           <h3 className="text-sm text-slate-900 font-bold">
             {categoria.genero}
           </h3>
@@ -74,20 +74,21 @@ export default function CategoriasCarousel() {
     categoriaAtualIndex + itemsPorPagina >= categorias.length && (
       <Link
         href="/categorias"
-        className="w-[180px] h-[150px] flex flex-col justify-center items-center rounded-2xl"
+        className="w-[180px] h-[150px] items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-lg"
       >
-        <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
-          <Image
-            className="w-full h-full object-cover rounded-full p-2"
-            src={ArrowRightIcon}
-            alt="icone para pagina dos eventos"
-          />
-        </div>
-
-        <div className="w-full h-auto flex justify-center items-center">
-          <p className="md:text-sm text-xs text-slate-900 font-bold">
-            Ver Mais
-          </p>
+        <div className="w-full h-full flex flex-col justify-center items-center transition-all duration-300">
+          <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
+            <Image
+              className="w-full h-full object-cover rounded-full p-2"
+              src={ArrowRightIcon}
+              alt="icone para pagina dos eventos"
+            />
+          </div>
+          <div className="w-full h-auto flex justify-center items-center">
+            <p className="md:text-sm text-xs text-slate-900 font-bold">
+              Ver Mais
+            </p>
+          </div>
         </div>
       </Link>
     );
