@@ -14,8 +14,9 @@ export default function CategoriasCarousel() {
 
   const updateItemsPerPage = () => {
     const largura = window.innerWidth;
-    if (largura <= 425) setItemsPorPagina(2);
-    else if (largura <= 768) setItemsPorPagina(3);
+    if (largura <= 375) setItemsPorPagina(2);
+    else if (largura <= 500) setItemsPorPagina(3);
+    else if (largura <= 768) setItemsPorPagina(4);
     else if (largura <= 1024) setItemsPorPagina(6);
     else if (largura <= 1200) setItemsPorPagina(8);
     else setItemsPorPagina(8);
@@ -63,7 +64,7 @@ export default function CategoriasCarousel() {
         className="w-[180px] h-[150px] flex items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-lg"
       >
         <div className="w-full h-full flex justify-center items-center bg-[#e6e6e7] shadow rounded-2xl hover:bg-orange-500 active:bg-orange-500 transition-all duration-300 animate-fade-in">
-          <h3 className="text-sm text-slate-900 font-bold">
+          <h3 className="text-xs sm:text-sm text-slate-900 font-bold">
             {categoria.genero}
           </h3>
         </div>
