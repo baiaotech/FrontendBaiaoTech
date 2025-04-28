@@ -72,7 +72,7 @@ export default function CategoriaPorGenero() {
             </h3>
           </div>
 
-          <div className="w-full max-h-8">
+          <div className="w-full min-h-4">
             <h3 className="text-xs text-slate-900 text-left font-semibold capitalize">
               {evento.local}
             </h3>
@@ -101,7 +101,7 @@ export default function CategoriaPorGenero() {
             </p>
           </div>
 
-          <div className="w-full h-auto flex flex-row flex-wrap justify-center items-start p-3 md:gap-10 gap-3">
+          <div className="w-full h-auto flex flex-row flex-wrap justify-center items-start md:p-3 md:gap-10 gap-3">
             {carregando ? renderSkeleton() : renderEventos()}
             {carregando ? renderEventos() : renderNenhumEvento()}
           </div>
