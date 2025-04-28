@@ -103,7 +103,7 @@ export default function ProximosEventos() {
             </h3>
           </div>
 
-          <div className="w-full max-h-8">
+          <div className="w-full min-h-4">
             <h3 className="text-xs text-slate-900 text-left font-semibold capitalize">
               {evento.local}
             </h3>
