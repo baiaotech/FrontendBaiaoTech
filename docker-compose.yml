@@ -5,8 +5,8 @@ services:
     command: npm run dev
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules # Evita sobrescrever node_modules do container
     environment:
-      - NODE_ENV=development
+      - NEXT_PUBLIC_NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=https://baiaotech.store/api
+      - NEXT_PUBLIC_FORM_LINK=https://forms.gle/ViFkUTk9aFq7LBUg9
+      - NEXT_PUBLIC_COMMUNITY_API_URL=https://baiao-tech.github.io/communities/public/comunities.json

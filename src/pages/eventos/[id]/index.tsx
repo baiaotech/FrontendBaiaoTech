@@ -37,10 +37,10 @@ export default function EventoPage() {
       <Header />
       <main className="w-full flex justify-center items-start p-5">
         <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
-          <div className="w-full flex justify-center items-center">
+          <div className="w-full flex justify-center items-center ">
             {evento.cover_photo_url ? (
               <img
-                className="w-full h-[400px] rounded-2xl"
+                className="w-full h-[400px] rounded-2xl object-contain"
                 src={evento.cover_photo_url || imageTemplate}
                 alt="imagem do evento"
                 width={500}
@@ -51,10 +51,10 @@ export default function EventoPage() {
             )}
           </div>
 
-          <div className="w-full h-auto flex flex-col mt-5">
-            <div className="w-full h-auto flex flex-row justify-between items-start">
+          <div className="w-full h-auto flex flex-col md:mt-5">
+            <div className="w-full h-auto flex flex-row justify-between items-start gap-3">
               <div className="flex flex-col">
-                <h1 className="text-2xl font-bold capitalize">
+                <h1 className="text-base md:text-lg lg:text-2xl font-bold capitalize">
                   {evento.titulo}
                 </h1>
                 <Link
@@ -66,13 +66,13 @@ export default function EventoPage() {
               </div>
 
               <div className="flex flex-col justify-center items-start p-1.5">
-                <p className="text-md font-semibold text-orange-500 capitalize">
+                <p className="text-xs md:text-sm lg:text-base font-semibold text-orange-500 capitalize">
                   {evento.data}
                 </p>
-                <p className="text-md font-semibold capitalize">
+                <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
                   {evento.local}
                 </p>
-                <p className="text-md font-semibold capitalize">
+                <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
                   {evento.organizacao}
                 </p>
               </div>
@@ -94,7 +94,8 @@ export default function EventoPage() {
               </div>
 
               <div className="w-full mt-5">
-                <p className="text-lg text-gray-600">{evento.descricao}</p>
+                <textarea className="w-full min-h-108 text-lg text-gray-600" disabled>{evento.descricao}</textarea>
+                {/* Criar logica para o textarea se auto expandir */}
               </div>
             </div>
           </div>
