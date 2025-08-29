@@ -166,6 +166,9 @@ export async function atualizarEvento(id: number) {
 }
 
 export async function deletarEvento(id: number) {
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("ID inválido para deleção de evento");
+  }
   try {
     const response = await api.delete(`/eventos/delete/${id}`);
     const data = response.data;
