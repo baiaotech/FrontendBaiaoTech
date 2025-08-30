@@ -1,8 +1,10 @@
 #!/bin/sh
 export COMPOSE_BAKE=true
 
-docker compose down -v
-docker system prune -a --volumes -f
-docker compose --build --no-cache
-docker compose up -d
-docker compose logs -f
+#docker compose down -v
+#docker system prune -a --volumes -f
+#docker compose --build --no-cache
+#docker compose up -d
+#docker compose logs -f
+
+docker compose up --build -d && docker compose logs -f
