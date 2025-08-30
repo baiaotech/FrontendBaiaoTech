@@ -1,15 +1,9 @@
-// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "standalone",
   images: {
-    // qualquer uma das duas abordagens funciona:
-
-    // 1) simples
-    // domains: ["i.ibb.co", "baiaotech.org", "api.baiaotech.org"],
-
-    // 2) mais restritiva (recomendada)
     remotePatterns: [
       { protocol: "https", hostname: "i.ibb.co" },
       { protocol: "https", hostname: "baiaotech.org" },
@@ -17,6 +11,7 @@ const nextConfig: NextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

@@ -1,0 +1,20 @@
+# dependências e builds locais
+node_modules
+.next
+out
+
+# VCS e lixo
+.git
+.gitignore
+npm-debug.log*
+yarn-error.log*
+
+# infra/ci
+Dockerfile
+docker-compose.yml
+deploy.sh
+
+# envs locais
+.env
+.env.*
+*.local
