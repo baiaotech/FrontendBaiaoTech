@@ -9,7 +9,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Baião Tech",
-  description: "Baião Tech é o #1 indexador de eventos de tecnologia do Nordeste, antes Coders Ceará, agora Baião Tech! ❤️",
+  description:
+    "Baião Tech é o #1 indexador de eventos de tecnologia do Nordeste, antes Coders Ceará, agora Baião Tech! ❤️",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -19,11 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${inter.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }
