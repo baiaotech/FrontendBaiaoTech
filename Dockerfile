@@ -5,8 +5,8 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-# mais heap só por segurança
-ENV NODE_OPTIONS=--max-old-space-size=8192
+# aumentar heap para build do Next.js
+ENV NODE_OPTIONS=--max-old-space-size=16384 --max-new-space-size=4096
 
 # Instalar pnpm
 RUN npm install -g pnpm
