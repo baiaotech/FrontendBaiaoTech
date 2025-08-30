@@ -50,7 +50,13 @@ export default function MainComunidades() {
                   className="w-36 h-48 md:w-48 bg-[#e6e6e7] shadow rounded-2xl cursor-pointer transition ease-in-out duration-300 hover:-translate-1"
                   key={com.id}
                 >
-                  <div className="w-full h-36 bg-slate-900 rounded-t-2xl"></div>
+                  <div className="w-full h-36 bg-slate-900 rounded-t-2xl">
+                    <img
+                      src={com.cover_photo_url}
+                      alt={com.nome}
+                      className="w-full h-full object-cover rounded-t-2xl"
+                    />
+                  </div>
 
                   <div className="w-full h-12 rounded-b-2xl flex justify-center items-center">
                     <p className="md:text-base text-sm text-slate-900 font-bold">

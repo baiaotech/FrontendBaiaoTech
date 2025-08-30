@@ -17,4 +17,5 @@ export interface Comunidade {
   descricao: string;
   url_site: string;
   url_insta: string;
+  cover_photo_url: string;
 }
