@@ -8,9 +8,12 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # aumentar heap para build do Next.js
 ENV NODE_OPTIONS=--max-old-space-size=16384 --max-new-space-size=4096
 
-COPY package*.json ./
+# Instalar pnpm
+RUN npm install -g pnpm
 
-RUN npm ci --include=dev
+COPY package*.json pnpm-lock.yaml* ./
+
+RUN pnpm install --no-frozen-lockfile
 
 COPY . .
 
@@ -22,7 +25,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_FORM_LINK=$NEXT_PUBLIC_FORM_LINK
 ENV NEXT_PUBLIC_COMMUNITY_API_URL=$NEXT_PUBLIC_COMMUNITY_API_URL
 
-RUN npm run build
+RUN pnpm run build
 
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=20s \
