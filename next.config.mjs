@@ -1,6 +1,6 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+// next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   output: "standalone",
   images: {
@@ -11,7 +11,6 @@ const nextConfig: NextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
-  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;
