@@ -9,7 +9,6 @@ import { Evento } from "@/types";
 import imageTemplate from "@/assets/imgTemplate.png";
 import Image from "next/image";
 
-
 export default function ProximosEventos() {
   const [evento, setEvento] = useState<Evento[]>([]);
   const [eventoPorPagina, setEventoPorPagina] = useState(4);
@@ -81,7 +80,7 @@ export default function ProximosEventos() {
       >
         <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
           {evento?.cover_photo_url ? (
-            <Image
+            <img
               src={evento.cover_photo_url || imageTemplate.src}
               alt="imagem do evento"
               width={1000}
@@ -158,14 +157,26 @@ export default function ProximosEventos() {
             onClick={handlePrevEvents}
             disabled={eventoAtualIndex === 0}
           >
-            <Image src={ArrowLeftIcon.src ?? ArrowLeftIcon} alt="Anterior" className="size-full" width={24} height={24} />
+            <Image
+              src={ArrowLeftIcon.src ?? ArrowLeftIcon}
+              alt="Anterior"
+              className="size-full"
+              width={24}
+              height={24}
+            />
           </button>
           <button
             className="size-7 p-1.5 rounded-2xl bg-[#e6e6e7] disabled:bg-[rgba(0,0,0,.3)]"
             onClick={handleNextEvents}
             disabled={eventoAtualIndex + eventoPorPagina >= evento.length}
           >
-            <Image src={ArrowRightIcon.src ?? ArrowRightIcon} alt="Próximo" className="size-full" width={24} height={24} />
+            <Image
+              src={ArrowRightIcon.src ?? ArrowRightIcon}
+              alt="Próximo"
+              className="size-full"
+              width={24}
+              height={24}
+            />
           </button>
         </div>
       </div>

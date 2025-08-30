@@ -50,7 +50,7 @@ export default function CategoriaPorGenero() {
       >
         <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
           {evento?.cover_photo_url ? (
-            <Image
+            <img
               src={evento.cover_photo_url || imageTemplate.src }
               alt="imagem do evento"
               width={1000}

@@ -12,7 +12,6 @@ import { categorias } from "@/components/categorias"; // para o sheet mobile
 
 import filterIcon from "@/assets/filter.svg";
 import imageTemplate from "@/assets/imgTemplate.png";
-import Image from "next/image";
 
 /** Sheet estático para mobile (sem absolute) */
 function MobileFilterSheet({
@@ -151,7 +150,7 @@ export default function MainEventosPage() {
           className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         >
           <div className="w-full h-[150px] rounded-t-2xl overflow-hidden bg-slate-200">
-            <Image
+            <img
               src={evento.cover_photo_url || imageTemplate.src}
               alt={evento.titulo}
               width={320}
@@ -213,15 +212,19 @@ export default function MainEventosPage() {
                 className="h-10 px-4 text-sm font-semibold bg-white border border-slate-300 hover:border-slate-400 rounded-xl shadow-sm flex items-center gap-2"
                 onClick={handleFilterButton}
               >
-                <Image src={filterIcon.src ?? filterIcon} alt="Filtro" className="w-4 h-4" width={16} height={16} />
+                <Image
+                  src={filterIcon.src ?? filterIcon}
+                  alt="Filtro"
+                  className="w-4 h-4"
+                  width={16}
+                  height={16}
+                />
                 Filtro
               </button>
               {filterBtnOpen && (
                 <div className="absolute right-0 mt-2 z-20">
                   {/* FilterButton continua como dropdown absoluto no desktop */}
-                  <FilterButton
-                    onFilter={(g) => aplicarFiltros(g)}
-                  />
+                  <FilterButton onFilter={(g) => aplicarFiltros(g)} />
                 </div>
               )}
             </div>
@@ -233,7 +236,13 @@ export default function MainEventosPage() {
               className="h-10 px-4 text-sm font-semibold bg-white border border-slate-300 hover:border-slate-400 rounded-xl shadow-sm flex items-center gap-2"
               onClick={handleFilterButton}
             >
-              <Image src={filterIcon.src ?? filterIcon} alt="Filtro" className="w-4 h-4" width={16} height={16} />
+              <Image
+                src={filterIcon.src ?? filterIcon}
+                alt="Filtro"
+                className="w-4 h-4"
+                width={16}
+                height={16}
+              />
               Filtro
             </button>
           </div>
