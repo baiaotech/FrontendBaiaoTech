@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { pegarTodosEventos } from "@/routes/api.routes";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
@@ -8,6 +7,8 @@ import Link from "next/link";
 import SkeletonCard from "@/components/skeletonCard";
 import { Evento } from "@/types";
 import imageTemplate from "@/assets/imgTemplate.png";
+import Image from "next/image";
+
 
 export default function ProximosEventos() {
   const [evento, setEvento] = useState<Evento[]>([]);
@@ -80,8 +81,8 @@ export default function ProximosEventos() {
       >
         <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
           {evento?.cover_photo_url ? (
-            <img
-              src={!evento.cover_photo_url ? imageTemplate : evento.cover_photo_url}
+            <Image
+              src={evento.cover_photo_url || imageTemplate.src}
               alt="imagem do evento"
               width={1000}
               height={1000}
@@ -122,8 +123,10 @@ export default function ProximosEventos() {
         <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">
           <Image
             className="w-full h-full object-cover rounded-full p-2"
-            src={ArrowRightIcon}
+            src={ArrowRightIcon.src ?? ArrowRightIcon}
             alt="icone para pagina dos eventos"
+            width={32}
+            height={32}
           />
         </div>
         <div className="w-full h-auto flex justify-center items-center">
@@ -155,14 +158,14 @@ export default function ProximosEventos() {
             onClick={handlePrevEvents}
             disabled={eventoAtualIndex === 0}
           >
-            <Image src={ArrowLeftIcon} alt="Anterior" className="size-full" />
+            <Image src={ArrowLeftIcon.src ?? ArrowLeftIcon} alt="Anterior" className="size-full" width={24} height={24} />
           </button>
           <button
             className="size-7 p-1.5 rounded-2xl bg-[#e6e6e7] disabled:bg-[rgba(0,0,0,.3)]"
             onClick={handleNextEvents}
             disabled={eventoAtualIndex + eventoPorPagina >= evento.length}
           >
-            <Image src={ArrowRightIcon} alt="Próximo" className="size-full" />
+            <Image src={ArrowRightIcon.src ?? ArrowRightIcon} alt="Próximo" className="size-full" width={24} height={24} />
           </button>
         </div>
       </div>

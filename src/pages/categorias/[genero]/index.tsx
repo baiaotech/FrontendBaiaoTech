@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
 import imageTemplate from "@/assets/imgTemplate.png";
+import Image from "next/image";
 
 export default function CategoriaPorGenero() {
   const [eventos, setEventos] = useState<Evento[]>([]);
@@ -49,8 +50,8 @@ export default function CategoriaPorGenero() {
       >
         <div className="w-full h-[150px] bg-slate-900 rounded-t-2xl">
           {evento?.cover_photo_url ? (
-            <img
-              src={evento.cover_photo_url || imageTemplate}
+            <Image
+              src={evento.cover_photo_url || imageTemplate.src }
               alt="imagem do evento"
               width={1000}
               height={1000}

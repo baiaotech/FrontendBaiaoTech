@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 
 import { Evento } from "@/types";
 import { filtrarEventos, filtrarEventoPorPesquisa } from "@/routes/api.routes";
@@ -13,6 +12,7 @@ import { categorias } from "@/components/categorias"; // para o sheet mobile
 
 import filterIcon from "@/assets/filter.svg";
 import imageTemplate from "@/assets/imgTemplate.png";
+import Image from "next/image";
 
 /** Sheet estático para mobile (sem absolute) */
 function MobileFilterSheet({
@@ -75,7 +75,7 @@ function MobileFilterSheet({
 export default function MainEventosPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = (searchParams.get("search") || "").trim();
+  const query = (searchParams?.get("search") || "").trim();
 
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [carregando, setCarregando] = useState<boolean>(false);
@@ -157,8 +157,6 @@ export default function MainEventosPage() {
               width={320}
               height={150}
               className="h-[150px] w-full object-cover"
-              // Se aparecer erro de domínio (ex.: i.ibb.co), adicione no next.config.js ou use unoptimized:
-              // unoptimized
             />
           </div>
 
@@ -215,7 +213,7 @@ export default function MainEventosPage() {
                 className="h-10 px-4 text-sm font-semibold bg-white border border-slate-300 hover:border-slate-400 rounded-xl shadow-sm flex items-center gap-2"
                 onClick={handleFilterButton}
               >
-                <Image src={filterIcon} alt="Filtro" className="w-4 h-4" />
+                <Image src={filterIcon.src ?? filterIcon} alt="Filtro" className="w-4 h-4" width={16} height={16} />
                 Filtro
               </button>
               {filterBtnOpen && (
@@ -235,7 +233,7 @@ export default function MainEventosPage() {
               className="h-10 px-4 text-sm font-semibold bg-white border border-slate-300 hover:border-slate-400 rounded-xl shadow-sm flex items-center gap-2"
               onClick={handleFilterButton}
             >
-              <Image src={filterIcon} alt="Filtro" className="w-4 h-4" />
+              <Image src={filterIcon.src ?? filterIcon} alt="Filtro" className="w-4 h-4" width={16} height={16} />
               Filtro
             </button>
           </div>

@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
+import Image from "next/image";
 
 export default function EventoPage() {
   const [evento, setEvento] = useState<Evento | null>(null);
@@ -39,9 +40,9 @@ export default function EventoPage() {
         <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
           <div className="w-full flex justify-center items-center ">
             {evento.cover_photo_url ? (
-              <img
+              <Image
                 className="w-full max-h-[400px] rounded-2xl object-contain bg-slate-900"
-                src={evento.cover_photo_url || imageTemplate}
+                src={evento.cover_photo_url || imageTemplate.src}
                 alt="imagem do evento"
                 width={500}
                 height={500}

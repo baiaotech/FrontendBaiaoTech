@@ -5,7 +5,8 @@ import { pegarEventoDestaque } from "@/routes/api.routes";
 import { Evento } from "@/types";
 import { useRouter } from "next/navigation";
 import SkeletonCard from "./skeletonCard";
-import imageTemplate from "@/assets/imgTemplate.png"
+import imageTemplate from "@/assets/imgTemplate.png";
+import Image from "next/image";
 
 export default function EventoPrincipal() {
   const [eventoEsperado, setEventoEsperado] = useState<Evento | null>(null);
@@ -35,8 +36,8 @@ export default function EventoPrincipal() {
       <div className="w-full md:max-w-7xl h-full md:h-[400px] flex flex-col md:flex-row justify-start items-center bg-[#e6e6e7] shadow rounded-2xl">
         <div className="w-full md:w-[65%] h-full flex justify-center items-center rounded-t-2xl md:rounded-t-none md:rounded-l-2xl">
           {eventoEsperado?.cover_photo_url ? (
-            <img
-              src={!eventoEsperado.cover_photo_url ? imageTemplate : eventoEsperado.cover_photo_url}
+            <Image
+              src={eventoEsperado?.cover_photo_url || imageTemplate.src }
               alt="imagem do evento"
               width={1000}
               height={1000}
