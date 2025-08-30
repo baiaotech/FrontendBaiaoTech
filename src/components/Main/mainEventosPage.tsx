@@ -12,6 +12,7 @@ import { categorias } from "@/components/categorias"; // para o sheet mobile
 
 import filterIcon from "@/assets/filter.svg";
 import imageTemplate from "@/assets/imgTemplate.png";
+import Image from "next/image";
 
 /** Sheet estático para mobile (sem absolute) */
 function MobileFilterSheet({
