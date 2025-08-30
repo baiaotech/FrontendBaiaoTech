@@ -9,7 +9,6 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
 import imageTemplate from "@/assets/imgTemplate.png";
-import Image from "next/image";
 
 export default function CategoriaPorGenero() {
   const [eventos, setEventos] = useState<Evento[]>([]);
