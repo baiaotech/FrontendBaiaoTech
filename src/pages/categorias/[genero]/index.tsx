@@ -8,6 +8,7 @@ import SkeletonCard from "@/components/skeletonCard";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
+import { sortByDateProximity } from "@/lib/utils";
 import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function CategoriaPorGenero() {
@@ -22,7 +23,7 @@ export default function CategoriaPorGenero() {
     setCarregando(true);
     try {
       const response = await filtrarEventoPorGenero(genero);
-      setEventos(response);
+      setEventos(sortByDateProximity(response));
     } catch (error) {
       console.error("Erro ao buscar eventos:", error);
       setEventos([]);

@@ -6,10 +6,10 @@ import Link from "next/link";
 
 import { Evento } from "@/types";
 import { filtrarEventos, filtrarEventoPorPesquisa } from "@/routes/api.routes";
+import { sortByDateProximity } from "@/lib/utils";
 import FilterButton from "@/components/FilterButton";
 import SkeletonCard from "@/components/skeletonCard";
-import { categorias } from "@/components/categorias"; // para o sheet mobile
-
+import { categorias } from "@/components/categorias";
 import filterIcon from "@/assets/filter.svg";
 import imageTemplate from "@/assets/imgTemplate.png";
 import Image from "next/image";
@@ -92,7 +92,7 @@ export default function MainEventosPage() {
           query.length >= 2
             ? await filtrarEventoPorPesquisa(query)
             : await filtrarEventos();
-        setEventos(res);
+        setEventos(sortByDateProximity(res));
       } catch (e) {
         console.error("Erro ao carregar eventos:", e);
         setEventos([]);
@@ -129,7 +129,7 @@ export default function MainEventosPage() {
         (generosSelecionados ?? selectedGenres).join(","),
         undefined
       );
-      setEventos(response);
+      setEventos(sortByDateProximity(response));
     } catch (error) {
       console.error("Erro ao aplicar filtros:", error);
       setEventos([]);

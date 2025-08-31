@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { pegarTodosEventos } from "@/routes/api.routes";
-import ArrowLeftIcon from "@/assets/arrow-left.svg";
+import { sortByDateProximity } from "@/lib/utils";import ArrowLeftIcon from "@/assets/arrow-left.svg";
 import ArrowRightIcon from "@/assets/arrow-right.svg";
 import Link from "next/link";
 import SkeletonCard from "@/components/skeletonCard";
@@ -18,7 +18,7 @@ export default function ProximosEventos() {
   const fetchEventos = async () => {
     try {
       const response = await pegarTodosEventos();
-      setEvento(response || []);
+      setEvento(sortByDateProximity(response || []));
       setCarregando(false);
     } catch (error) {
       console.error(error);
