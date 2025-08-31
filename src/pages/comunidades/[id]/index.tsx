@@ -42,7 +42,21 @@ export default function ComunidadeCardDialog() {
       <Header />
       <main className="w-full flex justify-center items-start p-5">
         <div className="w-full max-w-96 h-full flex flex-col justify-center items-center rounded-2xl">
-          <div className="w-full h-56 bg-slate-900 rounded-t-2xl"></div>
+          <div className="w-full h-56 bg-slate-900 rounded-t-2xl">
+            {comunidade.cover_photo_url ? (
+              <Image
+                src={comunidade.cover_photo_url}
+                alt={comunidade.nome}
+                width={400}
+                height={224}
+                className="w-full h-full object-cover rounded-t-2xl"
+              />
+            ) : (
+              <div className="w-full h-full bg-slate-900 rounded-t-2xl flex items-center justify-center">
+                <p className="text-white text-sm">Imagem não disponível</p>
+              </div>
+            )}
+          </div>
 
           <div className="w-full h-auto bg-[#e6e6e7] flex flex-col p-3 rounded-b-2xl gap-5">
             <div className="flex flex-row justify-between items-start">
