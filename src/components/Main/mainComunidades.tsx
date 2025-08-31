@@ -46,13 +46,13 @@ export default function MainComunidades() {
               ))
             : comunidade.map((com) => (
                 <Link
-                  href={`/comunidades/${com.id}`}
+                  href={`/comunidades/${com.id || ""}`}
                   className="w-36 h-48 md:w-48 bg-[#e6e6e7] shadow rounded-2xl cursor-pointer transition ease-in-out duration-300 hover:-translate-1"
                   key={com.id}
                 >
                   <div className="w-full h-36 bg-slate-900 rounded-t-2xl">
                     <img
-                      src={com.cover_photo_url}
+                      src={com.cover_photo_url || ""}
                       alt={com.nome}
                       className="w-full h-full object-cover rounded-t-2xl"
                     />

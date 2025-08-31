@@ -54,7 +54,7 @@ export default function ComunidadeCardDialog() {
               <div className="flex flex-col gap-2 justify-center">
                 <Link
                   className="md:text-base text-xs text-slate-900 font-semibold flex flex-row justify-start items-center gap-1"
-                  href={comunidade.url_insta}
+                  href={comunidade.url_insta || "#"}
                   target="_blank"
                 >
                   <Image
@@ -66,7 +66,7 @@ export default function ComunidadeCardDialog() {
                 </Link>
                 <Link
                   className="md:text-base text-xs text-slate-900 font-semibold flex flex-row justify-start items-center gap-1"
-                  href={comunidade.url_site}
+                  href={comunidade.url_site || "#"}
                   target="_blank"
                 >
                   <Image src={siteIcon} alt="Site icon" className="size-4" />

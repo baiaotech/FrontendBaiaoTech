@@ -16,7 +16,7 @@ export default function MainCategoriasPage() {
           <div className="flex flex-wrap justify-center md:gap-5 gap-3">
             {categorias.map((categoria) => (
               <Link
-                href={`/categorias/${categoria.genero}`}
+                href={`/categorias/${categoria.genero || ""}`}
                 className="md:w-[180px] w-[120px] h-[80px] md:h-[150px] flex items-center justify-center rounded-2xl"
                 key={categoria.id}
               >

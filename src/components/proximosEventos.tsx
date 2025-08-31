@@ -74,7 +74,7 @@ export default function ProximosEventos() {
   const renderEventos = () =>
     visibleEvents.map((evento) => (
       <Link
-        href={`/eventos/${evento.id}`}
+        href={`/eventos/${evento.id || ""}`}
         className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         key={evento.id}
       >

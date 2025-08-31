@@ -58,7 +58,7 @@ export default function EventoPage() {
                   {evento.titulo}
                 </h1>
                 <Link
-                  href={`/categorias/${evento.genero}`}
+                  href={`/categorias/${evento.genero || ""}`}
                   className="text-lg font-semibold capitalize"
                 >
                   {evento.genero}
@@ -86,7 +86,7 @@ export default function EventoPage() {
 
                 <Link
                   className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize"
-                  href={evento.link_compra}
+                  href={evento.link_compra || "#"}
                   target="_blank"
                 >
                   Comprar ingresso
