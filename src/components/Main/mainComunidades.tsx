@@ -30,12 +30,10 @@ export default function MainComunidades() {
   return (
     <main className="w-full flex justify-center items-start p-5 z-0">
       <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
-        <div className="w-full h-48 sm:p-5 flex flex-col justify-center items-center">
-          <p className="text-slate-900 md:text-2xl text-base font-bold">
-            Comunidades
-          </p>
-          <p className="text-slate-900 md:text-lg text-sm  font-semibold">
-            Conheça nossas comunidades parceiras
+        <div className="w-full h-auto sm:p-5 flex flex-col justify-center items-center mb-4">
+          <h1 className="text-slate-900 md:text-3xl text-xl font-extrabold mb-2">Comunidades de Tecnologia</h1>
+          <p className="text-slate-900 md:text-lg text-sm font-medium text-center max-w-2xl">
+            Esta é uma lista de comunidades de tecnologia do Nordeste que encontramos e reunimos para facilitar sua busca por networking, aprendizado e eventos. <span className="font-semibold text-orange-600">Nenhuma delas é parceira oficial do Baião Tech</span> — apenas listamos para ajudar a fortalecer o ecossistema regional!
           </p>
         </div>
 
@@ -45,25 +43,32 @@ export default function MainComunidades() {
                 <SkeletonCard key={index} />
               ))
             : comunidade.map((com) => (
-                <Link
-                  href={`/comunidades/${com.id || ""}`}
-                  className="w-36 h-48 md:w-48 bg-[#e6e6e7] shadow rounded-2xl cursor-pointer transition ease-in-out duration-300 hover:-translate-1"
+                <div
+                  className="w-80 h-64 md:w-96 bg-[#e6e6e7] shadow rounded-2xl flex flex-col cursor-pointer transition ease-in-out duration-300 hover:scale-[1.03] hover:shadow-lg"
                   key={com.id}
                 >
-                  <div className="w-full h-36 rounded-t-2xl">
+                  <Link href={`/comunidades/${com.id || ""}`} className="w-full h-36 rounded-t-2xl block">
                     <img
                       src={com.cover_photo_url || ""}
                       alt={com.nome}
-                      className="w-full h-full object-contain rounded-t-2xl"
+                      className="w-full h-full object-contain rounded-t-2xl bg-white"
                     />
-                  </div>
-
-                  <div className="w-full h-12 rounded-b-2xl flex justify-center items-center px-2">
-                    <p className="md:text-base text-sm text-slate-900 font-bold text-center leading-tight">
+                  </Link>
+                  <div className="w-full flex-1 flex flex-col justify-between items-center px-3 py-2">
+                    <p className="md:text-lg text-base text-slate-900 font-bold text-center leading-tight mb-1 line-clamp-2">
                       {com.nome}
                     </p>
+                    <p className="text-xs text-slate-700 text-center mb-2 line-clamp-3 min-h-[2.5em]">{com.descricao}</p>
+                    <div className="flex flex-row gap-2 justify-center items-center">
+                      {com.url_site && (
+                        <a href={com.url_site} target="_blank" rel="noopener noreferrer" title="Site" className="text-blue-700 hover:underline text-xs font-semibold">Site</a>
+                      )}
+                      {com.url_insta && (
+                        <a href={com.url_insta} target="_blank" rel="noopener noreferrer" title="Instagram" className="text-pink-600 hover:underline text-xs font-semibold">Instagram</a>
+                      )}
+                    </div>
                   </div>
-                </Link>
+                </div>
               ))}
         </div>
       </div>
