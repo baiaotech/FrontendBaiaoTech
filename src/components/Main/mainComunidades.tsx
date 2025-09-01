@@ -30,10 +30,11 @@ export default function MainComunidades() {
   return (
     <main className="w-full flex justify-center items-start p-5 z-0">
       <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
-        <div className="w-full h-auto sm:p-5 flex flex-col justify-center items-center mb-4">
-          <h1 className="text-slate-900 md:text-3xl text-xl font-extrabold mb-2">Comunidades de Tecnologia</h1>
-          <p className="text-slate-900 md:text-lg text-sm font-medium text-center max-w-2xl">
-            Esta é uma lista de comunidades de tecnologia do Nordeste que encontramos e reunimos para facilitar sua busca por networking, aprendizado e eventos. <span className="font-semibold text-orange-600">Nenhuma delas é parceira oficial do Baião Tech</span> — apenas listamos para ajudar a fortalecer o ecossistema regional!
+        <div className="w-full h-auto sm:p-5 p-3 flex flex-col justify-center items-center mb-4">
+          <h1 className="text-slate-900 md:text-3xl text-xl font-extrabold mb-2 text-center">Comunidades de Tecnologia</h1>
+          <p className="text-slate-900 md:text-lg text-sm font-medium text-center max-w-2xl px-4 leading-relaxed">
+            Esta é uma lista de comunidades de tecnologia do Nordeste que encontramos e reunimos para facilitar sua busca por networking, aprendizado e eventos. <br className="hidden sm:block" />
+            <span className="font-semibold text-orange-600 block sm:inline mt-1 sm:mt-0">Nenhuma delas é parceira oficial do Baião Tech</span> — apenas listamos para ajudar a fortalecer o ecossistema regional!
           </p>
         </div>
 
