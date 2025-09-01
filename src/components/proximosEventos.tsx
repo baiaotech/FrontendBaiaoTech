@@ -30,11 +30,18 @@ export default function ProximosEventos() {
   const updateItemsPerPage = () => {
     const largura = window.innerWidth;
 
-    if (largura <= 425) setEventoPorPagina(1);
-    else if (largura <= 768) setEventoPorPagina(2);
-    else if (largura <= 1024) setEventoPorPagina(3);
-    else if (largura <= 1200) setEventoPorPagina(4);
-    else setEventoPorPagina(4);
+    // Dispositivos móveis com largura próxima de 428px (iPhone 12 Pro Max, etc.)
+    if (largura <= 430) {
+      setEventoPorPagina(1);
+    } else if (largura <= 768) {
+      setEventoPorPagina(2);
+    } else if (largura <= 1024) {
+      setEventoPorPagina(3);
+    } else if (largura <= 1200) {
+      setEventoPorPagina(4);
+    } else {
+      setEventoPorPagina(4);
+    }
   };
 
   useEffect(() => {
