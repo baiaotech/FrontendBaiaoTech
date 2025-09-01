@@ -8,7 +8,7 @@ import SkeletonCard from "@/components/skeletonCard";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
-import { sortByDateProximity } from "@/lib/utils";
+import { sortByDateProximity, formatEventDate } from "@/lib/utils";
 import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function CategoriaPorGenero() {
@@ -65,7 +65,7 @@ export default function CategoriaPorGenero() {
         <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
           <div className="w-full h-auto mb-2">
             <h3 className="text-xs text-orange-500 text-left font-semibold capitalize mb-2">
-              {evento.data}
+              {formatEventDate(evento.data)}
             </h3>
 
             <h3 className="text-sm text-slate-900 text-left font-semibold capitalize mb-2">

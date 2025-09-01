@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
+import { formatEventDate } from "@/lib/utils";
 
 export default function EventoPage() {
   const [evento, setEvento] = useState<Evento | null>(null);
@@ -67,7 +68,7 @@ export default function EventoPage() {
 
               <div className="flex flex-col justify-center items-start p-1.5">
                 <p className="text-xs md:text-sm lg:text-base font-semibold text-orange-500 capitalize">
-                  {evento.data}
+                  {formatEventDate(evento.data)}
                 </p>
                 <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
                   {evento.local}

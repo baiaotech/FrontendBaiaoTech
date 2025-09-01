@@ -17,6 +17,48 @@ export function parseEventDate(value?: string): number {
 }
 
 /**
+ * Formata uma data no formato "YYYY-MM-DD" para "Domingo, 14 de Setembro de 2025"
+ */
+export function formatEventDate(dateString?: string): string {
+  if (!dateString) return "";
+
+  const [year, month, day] = dateString.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+
+  const diasDaSemana = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado"
+  ];
+
+  const meses = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ];
+
+  const diaDaSemana = diasDaSemana[date.getDay()];
+  const dia = date.getDate();
+  const mes = meses[date.getMonth()];
+  const ano = date.getFullYear();
+
+  return `${diaDaSemana}, ${dia} de ${mes} de ${ano}`;
+}
+
+/**
  * Ordena por proximidade de hoje:
  * - Primeiro FUTUROS (>= hoje), do mais próximo pro mais distante
  * - Depois PASSADOS (< hoje), do mais recente pro mais antigo

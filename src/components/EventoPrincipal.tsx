@@ -6,6 +6,7 @@ import { Evento } from "@/types";
 import { useRouter } from "next/navigation";
 import SkeletonCard from "./skeletonCard";
 import imageTemplate from "@/assets/imgTemplate.png";
+import { formatEventDate } from "@/lib/utils";
 
 export default function EventoPrincipal() {
   const [eventoEsperado, setEventoEsperado] = useState<Evento | null>(null);
@@ -51,7 +52,7 @@ export default function EventoPrincipal() {
           <div className="w-full h-auto flex flex-col justify-start items-center gap-3">
             <div className="w-full h-auto">
               <p className="text-sm text-orange-500 font-semibold">
-                {eventoEsperado.data}
+                {formatEventDate(eventoEsperado.data)}
               </p>
             </div>
 
