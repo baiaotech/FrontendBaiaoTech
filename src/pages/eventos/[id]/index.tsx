@@ -81,7 +81,7 @@ export default function EventoPage() {
             <div className="w-full h-auto flex flex-col">
               <div className="w-full min-h-15 flex flex-col justify-start items-start">
                 <p className="text-lg text-orange-500 font-bold my-5">
-                  R${evento.valor}
+                  {evento.valor === "0.00" || evento.valor === 0 ? "Grátis" : evento.valor === "1.00" || evento.valor === 1 ? "Em breve" : `R$${evento.valor}`}
                 </p>
 
                 <Link

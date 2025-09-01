@@ -4,7 +4,7 @@ export interface Evento {
   data: string;
   local: string;
   organizacao: string;
-  valor: number;
+  valor: number | string;
   link_compra: string;
   descricao: string;
   genero: string;
