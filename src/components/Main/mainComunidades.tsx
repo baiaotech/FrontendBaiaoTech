@@ -65,7 +65,7 @@ export default function MainComunidades() {
                         <a href={com.url_site} target="_blank" rel="noopener noreferrer" title="Site" className="text-blue-700 hover:underline text-xs font-semibold">Site</a>
                       )}
                       {com.url_insta && (
-                        <a href={com.url_insta} target="_blank" rel="noopener noreferrer" title="Instagram" className="text-pink-600 hover:underline text-xs font-semibold">Instagram</a>
+                        <a href={com.url_insta} target="_blank" rel="noopener noreferrer" title="Social" className="text-pink-600 hover:underline text-xs font-semibold">Social</a>
                       )}
                     </div>
                   </div>

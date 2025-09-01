@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import instagramIcon from "@/assets/instagram.svg";
 import siteIcon from "@/assets/site.svg";
 import Image from "next/image";
 import { Comunidade } from "@/types";
@@ -71,12 +70,8 @@ export default function ComunidadeCardDialog() {
                   href={comunidade.url_insta || "#"}
                   target="_blank"
                 >
-                  <Image
-                    src={instagramIcon}
-                    alt="Instagram icon"
-                    className="size-4"
-                  />
-                  Instagram
+                  <span className="text-slate-900 font-bold text-sm">@</span>
+                  Social
                 </Link>
                 <Link
                   className="md:text-base text-xs text-slate-900 font-semibold flex flex-row justify-start items-center gap-1"
