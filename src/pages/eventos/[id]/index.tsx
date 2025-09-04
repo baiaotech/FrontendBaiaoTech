@@ -9,6 +9,7 @@ import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
 import { formatEventDate } from "@/lib/utils";
+import ButtonShare from "@/components/ButtonShare";
 
 export default function EventoPage() {
   const [evento, setEvento] = useState<Evento | null>(null);
@@ -82,16 +83,27 @@ export default function EventoPage() {
             <div className="w-full h-auto flex flex-col">
               <div className="w-full min-h-15 flex flex-col justify-start items-start">
                 <p className="text-lg text-orange-500 font-bold my-5">
-                  {evento.valor === "0.00" || evento.valor === 0 ? "Grátis" : evento.valor === "1.00" || evento.valor === 1 ? "Em breve" : `R$${evento.valor}`}
+                  {evento.valor === "0.00" || evento.valor === 0
+                    ? "Grátis"
+                    : evento.valor === "1.00" || evento.valor === 1
+                    ? "Em breve"
+                    : `R$${evento.valor}`}
                 </p>
 
-                <Link
-                  className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize"
-                  href={evento.link_compra || "#"}
-                  target="_blank"
-                >
-                  Comprar ingresso
-                </Link>
+                {/* Botões de ação */}
+                <div className="w-full flex flex-row gap-3">
+                  {/* Botão de compra */}
+                  <Link
+                    className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize hover:bg-orange-600 transition-colors duration-300"
+                    href={evento.link_compra || "#"}
+                    target="_blank"
+                  >
+                    Comprar ingresso
+                  </Link>
+
+                  {/* Botão de compartilhamento */}
+                  <ButtonShare evento={evento} />
+                </div>
               </div>
 
               <div className="w-full mt-5">
