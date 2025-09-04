@@ -54,8 +54,8 @@ export default function EventoPage() {
           </div>
 
           <div className="w-full h-auto flex flex-col mt-5">
-            <div className="w-full h-auto flex flex-row justify-between items-start gap-3">
-              <div className="flex flex-col">
+            <div className="w-full h-auto flex sm:flex-row flex-col justify-between items-start gap-3">
+              <div className="flex flex-col p-1.5">
                 <h1 className="text-base md:text-lg lg:text-2xl font-bold capitalize">
                   {evento.titulo}
                 </h1>
@@ -91,10 +91,10 @@ export default function EventoPage() {
                 </p>
 
                 {/* Botões de ação */}
-                <div className="w-full flex flex-row gap-3">
+                <div className="w-full flex sm:flex-row flex-col gap-3">
                   {/* Botão de compra */}
                   <Link
-                    className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize hover:bg-orange-600 transition-colors duration-300"
+                    className="p-2.5 bg-slate-900 text-white text-center text-base rounded-lg capitalize hover:bg-orange-600 transition-colors duration-300"
                     href={evento.link_compra || "#"}
                     target="_blank"
                   >

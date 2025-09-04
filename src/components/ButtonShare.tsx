@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
-export default function ButtonShare({ evento }: { evento: any }) {
+interface Evento {
+  titulo: string;
+  local: string;
+}
+
+export default function ButtonShare({ evento }: { evento: Evento }) {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
