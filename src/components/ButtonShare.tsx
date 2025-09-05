@@ -1,12 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-
-interface Evento {
-  titulo: string;
-  local: string;
-}
-
+import type { Evento } from "@/types";
 export default function ButtonShare({ evento }: { evento: Evento }) {
   const [url, setUrl] = useState("");
 
