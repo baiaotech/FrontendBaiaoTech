@@ -30,7 +30,7 @@ export default function ButtonShare({ evento }: { evento: Evento }) {
   return (
     <Button
       onClick={handleShare}
-      className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize hover:bg-orange-600 transition-colors duration-300"
+      variant="primary"
     >
       Compartilhar evento
     </Button>
