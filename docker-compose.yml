@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        NEXT_PUBLIC_API_URL: https://0.0.0.0:8000/api/v1
+        NEXT_PUBLIC_API_URL: https://localhost:8000/api/v1
         NEXT_PUBLIC_FORM_LINK: https://forms.gle/ViFkUTk9aFq7LBUg9
         NEXT_PUBLIC_COMMUNITY_API_URL: http://localhost:8000/api/v1/comunidades/
     container_name: frontend-baiao-tech
