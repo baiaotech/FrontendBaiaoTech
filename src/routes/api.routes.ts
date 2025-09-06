@@ -1,9 +1,8 @@
-"use server";
-import { api, comunidadeApi } from "@/services/api";
+import { api } from "@/services/api";
 
 export async function pegarTodosEventos() {
   try {
-    const response = await api.get("/eventos");
+    const response = await api.get("/eventos/");
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -16,7 +15,7 @@ export async function pegarTodosEventos() {
 
 export async function pegarEventoPorId(id: number) {
   try {
-    const response = await api.get(`/eventos/${id}`);
+    const response = await api.get(`/eventos/edit/${id}/`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -42,18 +41,28 @@ export async function pegarEventoPorTitulo(titulo: string) {
 
 export async function pegarEventoDestaque() {
   try {
-    const response = await api.get("/eventos/destaque");
-    const data = response.data;
+    const response = await api.get("/eventos/destaque/");
 
-    // Se vier um objeto com campo "error", retornar null
-    if (data?.error) {
-      return null;
+    // Verifica se a API retornou que não há evento destacado
+    if (response.data?.status === "no_featured_event") {
+      return {
+        data: null,
+        status: 404 // Trata como "não encontrado" para o frontend
+      };
     }
 
-    return data;
-  } catch (error) {
+    // Retorna tanto os dados quanto o status da resposta
+    return {
+      data: response.data,
+      status: response.status
+    };
+  } catch (error: any) {
     console.error("Erro ao buscar evento em destaque:", error);
-    return null; // evita que o erro quebre o frontend
+    // Retorna o status de erro se houver
+    return {
+      data: null,
+      status: error.response?.status || 500
+    };
   }
 }
 
@@ -67,7 +76,7 @@ export async function filtrarEventos(
 ) {
   try {
     const response = await api.get(
-      `/eventos/filter/?dataEvento=${dataEvento || ""}&local=${
+      `/eventos/filter/?data=${dataEvento || ""}&local=${
         local || ""
       }&organizacao=${organizacao || ""}&descricao=${descricao || ""}&genero=${
         genero || ""
@@ -86,7 +95,7 @@ export async function filtrarEventos(
 export async function filtrarEventoPorPesquisa(termo: string) {
   try {
     const response = await api.get(
-      `/eventos/search/${termo ? `?q=${termo}` : ""}`
+      `/eventos/search${termo ? `?q=${termo}` : ""}`
     );
 
     const data = response.data;
@@ -128,7 +137,7 @@ export async function filtrarEventoPorTitulo(titulo: string) {
 
 export async function criarEvento() {
   try {
-    const response = await api.post("/eventos/novo");
+    const response = await api.post("/eventos/novo/");
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -141,7 +150,7 @@ export async function criarEvento() {
 
 export async function editarEvento(id: number) {
   try {
-    const response = await api.put(`/eventos/edit/${id}`);
+    const response = await api.put(`/eventos/edit/${id}/`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -154,7 +163,7 @@ export async function editarEvento(id: number) {
 
 export async function atualizarEvento(id: number) {
   try {
-    const response = await api.patch(`/eventos/edit/${id}`);
+    const response = await api.patch(`/eventos/edit/${id}/`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -170,7 +179,7 @@ export async function deletarEvento(id: number) {
     throw new Error("ID inválido para deleção de evento");
   }
   try {
-    const response = await api.delete(`/eventos/delete/${id}`);
+    const response = await api.delete(`/eventos/delete/${id}/`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -183,9 +192,7 @@ export async function deletarEvento(id: number) {
 
 export async function pegarTodasAsComunidades() {
   try {
-    const response = await comunidadeApi.get(
-      `${process.env.NEXT_PUBLIC_COMMUNITY_API_URL}`
-    );
+    const response = await api.get("/comunidades/");
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
