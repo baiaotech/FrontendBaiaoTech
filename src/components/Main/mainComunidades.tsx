@@ -46,11 +46,11 @@ export default function MainComunidades() {
       if (data && typeof data === 'object' && 'results' in data) {
         const novasComunidades = Array.isArray(data.results) ? data.results : [];
 
-        if (append) {
-          setComunidades(prev => [...prev, ...novasComunidades]);
-        } else {
-          setComunidades(novasComunidades);
-        }
+        setComunidades(prev => {
+          const existingIds = new Set(prev.map(c => c.id));
+          const uniqueNovas = novasComunidades.filter((c: Comunidade) => !existingIds.has(c.id));
+          return append ? [...prev, ...uniqueNovas] : uniqueNovas;
+        });
 
         // Se precisamos carregar todas as comunidades (por causa do filtro) e há mais páginas
         if (loadAll && data.next) {
@@ -65,11 +65,11 @@ export default function MainComunidades() {
         }
       } else if (Array.isArray(data)) {
         // Resposta direta como array
-        if (append) {
-          setComunidades(prev => [...prev, ...data]);
-        } else {
-          setComunidades(data);
-        }
+        setComunidades(prev => {
+          const existingIds = new Set(prev.map(c => c.id));
+          const uniqueNovas = data.filter((c: Comunidade) => !existingIds.has(c.id));
+          return append ? [...prev, ...uniqueNovas] : uniqueNovas;
+        });
         setHasMore(false);
         setTotalComunidades(data.length);
       }
