@@ -117,6 +117,7 @@ export default function Footer() {
             href={`${process.env.NEXT_PUBLIC_FORM_LINK ?? "#"}`}
             target="_blank"
             rel="noopener noreferrer"
+            replace
             className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-800 underline decoration-slate-400/60 underline-offset-2"
           >
             {/* megafone */}
@@ -136,6 +137,7 @@ export default function Footer() {
             href={`${process.env.NEXT_PUBLIC_LEADERS_DISCORD ?? "#"}`}
             target="_blank"
             rel="noopener noreferrer"
+            replace
             className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-800 underline decoration-slate-400/60 underline-offset-2"
           >
             <Image src={discordIcon} alt="Discord" className="h-4 w-4" />

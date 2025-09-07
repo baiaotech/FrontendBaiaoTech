@@ -1,13 +1,15 @@
 "use client";
 
 import { api } from "@/services/api";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { Comunidade } from "@/types";
 import SkeletonCard from "@/components/skeletonCard";
 import EstadoFilter from "@/components/EstadoFilter";
 
 export default function MainComunidades() {
+  const [estadoParam, setEstadoParam] = useState<string | null>(null);
+
   const [comunidades, setComunidades] = useState<Comunidade[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [carregandoMais, setCarregandoMais] = useState(false);
@@ -17,7 +19,16 @@ export default function MainComunidades() {
   const [hasMore, setHasMore] = useState(true);
   const [totalComunidades, setTotalComunidades] = useState(0);
 
-  const fetchComunidades = async (page: number = 1, append: boolean = false) => {
+  // Ler search params apenas no cliente para evitar hydration mismatch
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const estado = urlParams.get("estado") || null;
+      setEstadoParam(estado);
+    }
+  }, []);
+
+    const fetchComunidades = useCallback(async (page: number = 1, append: boolean = false, loadAll: boolean = false) => {
     try {
       if (page === 1) {
         setCarregando(true);
@@ -41,9 +52,17 @@ export default function MainComunidades() {
           setComunidades(novasComunidades);
         }
 
-        // Verifica se há mais páginas
-        setHasMore(data.next !== null);
-        setTotalComunidades(data.count || 0);
+        // Se precisamos carregar todas as comunidades (por causa do filtro) e há mais páginas
+        if (loadAll && data.next) {
+          // Carregar a próxima página recursivamente
+          await fetchComunidades(page + 1, true, true);
+        } else {
+          // Verifica se há mais páginas - só definir hasMore quando não estamos carregando tudo
+          if (!loadAll) {
+            setHasMore(data.next !== null);
+          }
+          setTotalComunidades(data.count || 0);
+        }
       } else if (Array.isArray(data)) {
         // Resposta direta como array
         if (append) {
@@ -62,7 +81,7 @@ export default function MainComunidades() {
       setCarregando(false);
       setCarregandoMais(false);
     }
-  };
+  }, []);
 
   // Filtrar comunidades baseado nos estados selecionados e busca
   const comunidadesExibidas = useMemo(() => {
@@ -90,11 +109,43 @@ export default function MainComunidades() {
 
   const handleFiltroEstados = (estados: string[]) => {
     setEstadosSelecionados(estados);
+
+    // Se estamos removendo todos os filtros (estados vazios)
+    if (estados.length === 0) {
+      setPagina(1);
+      setHasMore(true);
+      // Limpar o parâmetro da URL quando removemos todos os filtros
+      if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('estado');
+        window.history.replaceState({}, '', url.toString());
+      }
+      // Atualizar estadoParam para null quando removemos o filtro da URL
+      setEstadoParam(null);
+      // Recarregar apenas a primeira página quando removemos todos os filtros
+      fetchComunidades(1, false, false);
+    }
+    // Se estamos aplicando filtros, carregar todas as comunidades para garantir que o filtro funcione
+    else if (estados.length > 0 && comunidades.length < totalComunidades) {
+      fetchComunidades(1, false, true);
+    }
   };
 
   const handleLimparFiltro = () => {
     setEstadosSelecionados([]);
     setBusca("");
+    setPagina(1);
+    setHasMore(true);
+    // Limpar o parâmetro da URL quando limpamos os filtros
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('estado');
+      window.history.replaceState({}, '', url.toString());
+    }
+    // Atualizar estadoParam para null quando removemos o filtro da URL
+    setEstadoParam(null);
+    // Quando limpamos os filtros, recarregar apenas a primeira página
+    fetchComunidades(1, false, false);
   };
 
   const handleBuscaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +153,9 @@ export default function MainComunidades() {
   };
 
   const handleVerMais = () => {
+    // Não carregar mais se estamos filtrando por estado ou busca (já carregamos tudo)
+    if (estadosSelecionados.length > 0 || busca.trim()) return;
+
     if (hasMore && !carregandoMais) {
       const nextPage = pagina + 1;
       setPagina(nextPage);
@@ -110,11 +164,30 @@ export default function MainComunidades() {
   };
 
   useEffect(() => {
-    fetchComunidades(1, false);
-  }, []);
+    // Se há um estado na URL, carregar todas as comunidades para garantir que o filtro funcione
+    if (estadoParam) {
+      fetchComunidades(1, false, true);
+    } else {
+      fetchComunidades(1, false);
+    }
+  }, [estadoParam, fetchComunidades]);
+
+  // Aplicar filtro de estado automaticamente quando vier da URL
+  useEffect(() => {
+    if (estadoParam && comunidades.length > 0 && !estadosSelecionados.includes(estadoParam)) {
+      setEstadosSelecionados([estadoParam]);
+    }
+  }, [estadoParam, comunidades, estadosSelecionados]);
+
+  // Efeito para carregar todas as comunidades quando há filtros aplicados
+  useEffect(() => {
+    if ((estadosSelecionados.length > 0 || busca.trim()) && comunidades.length < totalComunidades && !carregando) {
+      fetchComunidades(1, false, true);
+    }
+  }, [estadosSelecionados, busca, carregando, comunidades.length, fetchComunidades, totalComunidades]);
 
   return (
-    <main className="w-full min-h-screen bg-[#e6e6e7]">
+    <main className="w-full min-h-screen bg-gray-50">
       <div className="container max-w-7xl mx-auto px-4 py-8">
         {/* Header Section */}
         <div className="text-center mb-8">
@@ -315,8 +388,8 @@ export default function MainComunidades() {
               ))}
         </div>
 
-        {/* Ver Mais Button - aparece sempre que há mais comunidades para carregar */}
-        {!carregando && hasMore && comunidadesExibidas.length > 0 && (
+        {/* Ver Mais Button - aparece sempre que há mais comunidades para carregar e não estamos filtrando */}
+        {!carregando && hasMore && comunidadesExibidas.length > 0 && estadosSelecionados.length === 0 && !busca.trim() && (
           <div className="text-center mt-8">
             <button
               onClick={handleVerMais}
@@ -341,7 +414,18 @@ export default function MainComunidades() {
               )}
             </button>
             <p className="text-sm text-gray-600 mt-2">
-              Mostrando {comunidadesExibidas.length} de {totalComunidades} comunidades
+              Mostrando {comunidades.length} de {totalComunidades} comunidades
+            </p>
+          </div>
+        )}
+
+        {/* Status message when filters are applied */}
+        {!carregando && (estadosSelecionados.length > 0 || busca.trim()) && comunidadesExibidas.length > 0 && (
+          <div className="text-center mt-8">
+            <p className="text-sm text-gray-600">
+              Mostrando {comunidadesExibidas.length} de {comunidades.length} comunidades
+              {estadosSelecionados.length > 0 && ` filtradas por estado`}
+              {busca.trim() && ` com busca "${busca}"`}
             </p>
           </div>
         )}
