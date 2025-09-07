@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -84,23 +84,50 @@ export default function MainEventosPage() {
   // estado dos filtros (usado pelo sheet mobile)
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
+  // Controle para prevenir execuções duplicadas da busca
+  const lastQueryRef = useRef<string>("");
+  const isLoadingRef = useRef<boolean>(false);
+
+  // Função memoizada para buscar eventos
+  const buscarEventos = useCallback(async (searchQuery: string) => {
+    // Previne execuções duplicadas e busca vazia desnecessária
+    if (isLoadingRef.current || lastQueryRef.current === searchQuery) {
+      return;
+    }
+
+    // Só executa busca se a query mudou significativamente
+    const trimmedQuery = searchQuery.trim();
+    if (lastQueryRef.current === trimmedQuery) {
+      return;
+    }
+
+    isLoadingRef.current = true;
+    lastQueryRef.current = trimmedQuery;
+    setCarregando(true);
+
+    try {
+      const res =
+        trimmedQuery.length >= 2
+          ? await filtrarEventoPorPesquisa(trimmedQuery)
+          : await filtrarEventos();
+      setEventos(sortByDateProximity(res as Evento[]));
+    } catch (e) {
+      console.error("Erro ao carregar eventos:", e);
+      setEventos([]);
+    } finally {
+      setCarregando(false);
+      isLoadingRef.current = false;
+    }
+  }, []);
+
   useEffect(() => {
-    (async () => {
-      setCarregando(true);
-      try {
-        const res =
-          query.length >= 2
-            ? await filtrarEventoPorPesquisa(query)
-            : await filtrarEventos();
-        setEventos(sortByDateProximity(res as Evento[]));
-      } catch (e) {
-        console.error("Erro ao carregar eventos:", e);
-        setEventos([]);
-      } finally {
-        setCarregando(false);
-      }
-    })();
-  }, [query]);
+    // Pequeno delay para evitar execuções durante hidratação
+    const timeoutId = setTimeout(() => {
+      buscarEventos(query);
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [query, buscarEventos]);
 
   const handleFilterButton = () => setFilterBtnOpen((v) => !v);
   const closeFilter = () => setFilterBtnOpen(false);
