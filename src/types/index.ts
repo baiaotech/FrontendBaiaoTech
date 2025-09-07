@@ -14,8 +14,14 @@ export interface Evento {
 export interface Comunidade {
   id: number;
   nome: string;
-  descricao: string;
-  url_site: string;
-  url_insta: string;
-  cover_photo_url: string;
+  descricao: string | null;
+  estado: string | null;
+  url_site: string | null;
+  url_insta: string | null;
+  url_facebook: string | null;
+  url_linkedin: string | null;
+  url_twitter: string | null;
+  url_telegram: string | null;
+  url_whatsapp: string | null;
+  cover_photo_url: string | null;
 }
