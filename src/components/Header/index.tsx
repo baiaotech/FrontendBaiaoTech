@@ -83,6 +83,7 @@ export default function Header() {
               href={`${process.env.NEXT_PUBLIC_FORM_LINK ?? "#"}`}
               className="text-orange-500 lg:text-sm md:text-xs font-bold cursor-pointer hover:text-orange-800 transition"
               target="_blank"
+              replace
             >
               Indique um evento
             </Link>
@@ -187,6 +188,7 @@ export default function Header() {
               href={`${process.env.NEXT_PUBLIC_FORM_LINK ?? "#"}`}
               className="text-orange-500 lg:text-sm md:text-xs font-bold cursor-pointer hover:text-orange-800 transition"
               target="_blank"
+              replace
             >
               Indique um evento
             </Link>

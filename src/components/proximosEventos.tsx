@@ -19,10 +19,13 @@ export default function ProximosEventos() {
   const fetchEventos = async () => {
     try {
       const response = await pegarTodosEventos();
-      setEvento(sortByDateProximity(response || []));
+      // Garante que response seja sempre um array
+      const eventosArray = Array.isArray(response) ? response : [];
+      setEvento(sortByDateProximity(eventosArray as Evento[]));
       setCarregando(false);
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao buscar eventos:", error);
+      setEvento([]); // Define array vazio em caso de erro
       setCarregando(false);
     }
   };

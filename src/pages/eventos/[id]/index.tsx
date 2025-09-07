@@ -25,7 +25,7 @@ export default function EventoPage() {
     const fetchEvento = async () => {
       try {
         const response = await pegarTodosEventos();
-        const eventoPorId = response.find(
+        const eventoPorId = (response as Evento[]).find(
           (idEvento: Evento) => idEvento.id === Number(id)
         );
         setEvento(eventoPorId || null);

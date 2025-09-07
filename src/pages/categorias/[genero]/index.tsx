@@ -23,7 +23,7 @@ export default function CategoriaPorGenero() {
     setCarregando(true);
     try {
       const response = await filtrarEventoPorGenero(genero);
-      setEventos(sortByDateProximity(response));
+      setEventos(sortByDateProximity(response as Evento[]));
     } catch (error) {
       console.error("Erro ao buscar eventos:", error);
       setEventos([]);

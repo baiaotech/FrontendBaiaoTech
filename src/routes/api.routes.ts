@@ -1,15 +1,36 @@
 import { api } from "@/services/api";
 
+// Interface para resposta paginada da API
+interface PaginatedResponse<T> {
+  results: T[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+}
+
+// Função utilitária para extrair dados de resposta paginada
+function extractDataFromResponse<T = unknown>(data: unknown): T[] {
+  if (data && typeof data === 'object' && 'results' in data) {
+    // Resposta paginada
+    const paginatedData = data as PaginatedResponse<T>;
+    return Array.isArray(paginatedData.results) ? paginatedData.results : [];
+  } else if (Array.isArray(data)) {
+    // Resposta direta como array
+    return data;
+  } else {
+    console.warn("extractDataFromResponse: formato de resposta inesperado", data);
+    return [];
+  }
+}
+
 export async function pegarTodosEventos() {
   try {
     const response = await api.get("/eventos/");
     const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
+    return extractDataFromResponse(data);
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao buscar eventos:", error);
+    return []; // Sempre retorna array vazio em caso de erro
   }
 }
 
@@ -56,12 +77,13 @@ export async function pegarEventoDestaque() {
       data: response.data,
       status: response.status
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Erro ao buscar evento em destaque:", error);
     // Retorna o status de erro se houver
+    const axiosError = error as { response?: { status?: number } };
     return {
       data: null,
-      status: error.response?.status || 500
+      status: axiosError.response?.status || 500
     };
   }
 }
@@ -83,12 +105,10 @@ export async function filtrarEventos(
       }&titulo=${titulo || ""}`
     );
     const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
+    return extractDataFromResponse(data);
   } catch (error) {
     console.error("Erro ao filtrar eventos:", error);
+    return [];
   }
 }
 
@@ -97,12 +117,8 @@ export async function filtrarEventoPorPesquisa(termo: string) {
     const response = await api.get(
       `/eventos/search${termo ? `?q=${termo}` : ""}`
     );
-
     const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
+    return extractDataFromResponse(data);
   } catch (error) {
     console.error("Erro na requisição:", error);
     return [];
@@ -113,12 +129,10 @@ export async function filtrarEventoPorGenero(genero: string) {
   try {
     const response = await api.get(`/eventos/filter/?genero=${genero}`);
     const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
+    return extractDataFromResponse(data);
   } catch (error) {
     console.error(error);
+    return [];
   }
 }
 
@@ -126,12 +140,10 @@ export async function filtrarEventoPorTitulo(titulo: string) {
   try {
     const response = await api.get(`/eventos/filter/?titulo=${titulo}`);
     const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
+    return extractDataFromResponse(data);
   } catch (error) {
     console.error(error);
+    return [];
   }
 }
 
@@ -194,10 +206,7 @@ export async function pegarTodasAsComunidades() {
   try {
     const response = await api.get("/comunidades/");
     const data = response.data;
-
-    if (!data) throw new Error("Erro na requisição");
-
-    return data;
+    return extractDataFromResponse(data);
   } catch (error) {
     console.error("Erro ao buscar comunidades:", error);
     return [];
