@@ -19,7 +19,7 @@ export default function EventoPage() {
   const router = useRouter();
   const { id } = router.query;
   const isMobile = useIsMobile(); 
-   const [shareOpen, setShareOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
     const fetchEvento = async () => {

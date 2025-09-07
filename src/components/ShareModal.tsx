@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/router";
 
 type Props = {
   open: boolean;
@@ -13,31 +12,72 @@ type Props = {
 };
 
 export default function ShareModal({ open, onClose, url, isMobile }: Props) {
-    const router = useRouter();
-
-    const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Evento",
-          url,
-        });
-        onClose();
-      } catch (error) {
-        
-      }
-    } else {
-      navigator.clipboard.writeText(url);
-      alert("Link copiado!");
-      onClose();
-    }
-  };
-    
+  // Só renderiza se estiver aberto
   if (!open) return null;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(url);
-  };
+    const handleCopyToClipboard = async () => {
+        // Verifica se a Clipboard API está disponível
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+                await navigator.clipboard.writeText(url);
+                alert("Link copiado!");
+                onClose();
+            } catch (error) {
+                console.error("Erro ao copiar para clipboard:", error);
+                // Fallback: tentar usar o método antigo
+                fallbackCopyToClipboard(url);
+            }
+        } else {
+            // Fallback para navegadores que não suportam Clipboard API
+            fallbackCopyToClipboard(url);
+        }
+    };
+
+    const fallbackCopyToClipboard = (text: string) => {
+        // Método alternativo usando textarea temporária
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                alert("Link copiado!");
+                onClose();
+            } else {
+                alert("Não foi possível copiar o link. Copie manualmente: " + text);
+            }
+        } catch (error) {
+            console.error("Erro no fallback de cópia:", error);
+            alert("Não foi possível copiar o link. Copie manualmente: " + text);
+        }
+
+        document.body.removeChild(textArea);
+    };
+
+    const handleNativeShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: "Evento",
+                    url,
+                });
+                onClose();
+            } catch (error) {
+                console.error("Erro no compartilhamento nativo:", error);
+                // Fallback para cópia
+                await handleCopyToClipboard();
+            }
+        } else {
+            // Fallback para cópia se compartilhamento nativo não estiver disponível
+            await handleCopyToClipboard();
+        }
+    };
 
   return (
     <div
