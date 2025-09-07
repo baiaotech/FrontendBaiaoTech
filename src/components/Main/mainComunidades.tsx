@@ -1,3 +1,5 @@
+"use client";
+
 import { pegarTodasAsComunidades } from "@/routes/api.routes";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -12,19 +14,20 @@ export default function MainComunidades() {
 
   const fetchComunidade = async () => {
     try {
+      console.log("Iniciando busca de comunidades...");
       const response = await pegarTodasAsComunidades();
+      console.log("Resposta recebida:", response);
       setComunidade(response);
       setCarregando(false);
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao buscar comunidades:", error);
       setCarregando(false);
     }
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchComunidade();
-    }, 1000);
+    // Removendo o setTimeout que pode ser considerado suspeito pelo adblock
+    fetchComunidade();
   }, []);
 
   return (

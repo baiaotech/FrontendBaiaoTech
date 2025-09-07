@@ -17,7 +17,17 @@ export default function EventoPrincipal() {
   const fetchEvento = async () => {
     const response = await pegarEventoDestaque();
     console.log("Resposta da API:", response);
-    setEventoEsperado(response);
+    console.log("Status da resposta:", response.status);
+
+    // Verifica se há evento destacado baseado no status HTTP
+    // Se status for 200 e houver dados, mostra o evento
+    // Se status for 404 ou 204, não há evento destacado
+    if (response.status === 200 && response.data) {
+      setEventoEsperado(response.data);
+    } else {
+      setEventoEsperado(null);
+    }
+
     setCarregando(false);
   };
 
@@ -81,15 +91,21 @@ export default function EventoPrincipal() {
       </div>
     );
 
-  const renderNenhumEvento = () =>
-    !carregando &&
-    !eventoEsperado && (
-      <div className="w-full md:max-w-7xl h-full md:h-[100px] flex flex-row justify-start items-start gap-10">
-        <div className="flex justify-center items-center">
-          <p className="text-base font-bold">Nenhum evento destacado</p>
-        </div>
-      </div>
-    );
+  // Remove a função renderNenhumEvento pois não será mais usada
+  // const renderNenhumEvento = () =>
+  //   !carregando &&
+  //   !eventoEsperado && (
+  //     <div className="w-full md:max-w-7xl h-full md:h-[100px] flex flex-row justify-start items-start gap-10">
+  //       <div className="flex justify-center items-center">
+  //         <p className="text-base font-bold">Nenhum evento destacado</p>
+  //       </div>
+  //     </div>
+  //   );
+
+  // Se não estiver carregando e não houver evento destacado, o componente não renderiza nada
+  if (!carregando && !eventoEsperado) {
+    return null;
+  }
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -98,7 +114,6 @@ export default function EventoPrincipal() {
       </div>
 
       {carregando ? renderSkeleton() : renderEventoPrincipal()}
-      {carregando ? renderEventoPrincipal() : renderNenhumEvento()}
     </div>
   );
 }
