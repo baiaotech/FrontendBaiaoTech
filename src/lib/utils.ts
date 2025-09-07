@@ -67,6 +67,12 @@ export function sortByDateProximity<T extends { data?: string }>(
   arr: T[],
   now = new Date()
 ): T[] {
+  // Verifica se arr é um array válido
+  if (!Array.isArray(arr)) {
+    console.warn("sortByDateProximity: arr não é um array válido, retornando array vazio");
+    return [];
+  }
+
   const base = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime(); // hoje 00:00
   return [...arr].sort((a, b) => {
     const ta = parseEventDate(a.data);

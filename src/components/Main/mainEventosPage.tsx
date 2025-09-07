@@ -92,7 +92,7 @@ export default function MainEventosPage() {
           query.length >= 2
             ? await filtrarEventoPorPesquisa(query)
             : await filtrarEventos();
-        setEventos(sortByDateProximity(res));
+        setEventos(sortByDateProximity(res as Evento[]));
       } catch (e) {
         console.error("Erro ao carregar eventos:", e);
         setEventos([]);
@@ -129,7 +129,7 @@ export default function MainEventosPage() {
         (generosSelecionados ?? selectedGenres).join(","),
         undefined
       );
-      setEventos(sortByDateProximity(response));
+      setEventos(sortByDateProximity(response as Evento[]));
     } catch (error) {
       console.error("Erro ao aplicar filtros:", error);
       setEventos([]);
