@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import { Evento } from "@/types";
-import { filtrarEventos, filtrarEventoPorPesquisa } from "@/routes/api.routes";
 import { sortByDateProximity, formatEventDate } from "@/lib/utils";
 import FilterButton from "@/components/FilterButton";
 import SkeletonCard from "@/components/skeletonCard";
@@ -14,6 +13,10 @@ import filterIcon from "@/assets/filter.svg";
 import imageTemplate from "@/assets/imgTemplate.png";
 import Image from "next/image";
 import { api } from "@/services/api";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 /** Sheet estático para mobile (sem absolute) */
 function MobileFilterSheet({

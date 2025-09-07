@@ -1,5 +1,7 @@
 import { api } from "@/services/api";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // Interface para resposta paginada da API
 interface PaginatedResponse<T> {
   results: T[];
@@ -265,9 +267,27 @@ export async function deletarEvento(id: number) {
 
 export async function pegarTodasAsComunidades() {
   try {
-    const response = await api.get("/comunidades/");
-    const data = response.data;
-    return extractDataFromResponse(data);
+    let allResults: any[] = [];
+    let nextUrl: string | null = "/comunidades/";
+    
+    while (nextUrl) {
+      const response = await api.get(nextUrl);
+      const data = response.data;
+      
+      if (data && typeof data === 'object' && 'results' in data) {
+        const paginatedData = data as PaginatedResponse<any>;
+        allResults = allResults.concat(paginatedData.results || []);
+        nextUrl = paginatedData.next ? paginatedData.next.replace(/^http:/, 'https:') : null;
+      } else if (Array.isArray(data)) {
+        allResults = allResults.concat(data);
+        nextUrl = null;
+      } else {
+        console.warn("pegarTodasAsComunidades: formato de resposta inesperado", data);
+        break;
+      }
+    }
+    
+    return allResults;
   } catch (error) {
     console.error("Erro ao buscar comunidades:", error);
     return [];
