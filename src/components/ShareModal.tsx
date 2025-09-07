@@ -9,11 +9,57 @@ type Props = {
   onClose: () => void;
   url: string;
   isMobile?: boolean;
+  evento?: {
+    titulo?: string;
+    data?: string;
+    local?: string;
+    organizacao?: string;
+    link_compra?: string;
+    valor?: string;
+  };
 };
 
-export default function ShareModal({ open, onClose, url, isMobile }: Props) {
+export default function ShareModal({ open, onClose, url, isMobile, evento }: Props) {
   // Só renderiza se estiver aberto
   if (!open) return null;
+
+  // Função para criar o texto de compartilhamento
+  const criarTextoCompartilhamento = () => {
+    if (!evento) return url;
+
+    const { titulo, data, local, organizacao, link_compra, valor } = evento;
+
+    let texto = `🎉 *${titulo || 'Evento'}*\n\n`;
+
+    if (data) {
+      const dataFormatada = new Date(data).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+      texto += `📅 *Data:* ${dataFormatada}\n`;
+    }
+
+    if (local) {
+      texto += `📍 *Local:* ${local}\n`;
+    }
+
+    if (organizacao) {
+      texto += `🏢 *Organização:* ${organizacao}\n`;
+    }
+
+    if (valor) {
+      const valorTexto = valor === "0.00" || valor === "0" ? "Grátis" :
+                        valor === "1.00" || valor === "1" ? "Em breve" :
+                        `R$ ${valor}`;
+      texto += `💰 *Valor:* ${valorTexto}\n`;
+    }
+
+    texto += `\n🔗 *Link para inscrição:* ${link_compra || url}\n\n`;
+    texto += `Compartilhado via Baião Tech 🚀`;
+
+    return texto;
+  };
 
     const handleCopyToClipboard = async () => {
         // Verifica se a Clipboard API está disponível
@@ -100,7 +146,7 @@ export default function ShareModal({ open, onClose, url, isMobile }: Props) {
               className="flex items-center gap-2 p-3 rounded bg-green-500 text-white hover:bg-green-600 justify-center"
               onClick={() =>
                 window.open(
-                  `https://wa.me/?text=${encodeURIComponent(url)}`,
+                  `https://wa.me/?text=${encodeURIComponent(criarTextoCompartilhamento())}`,
                   "_blank"
                 )
               }
@@ -148,7 +194,7 @@ export default function ShareModal({ open, onClose, url, isMobile }: Props) {
               className="flex items-center gap-2 p-3 rounded bg-green-500 text-white hover:bg-green-600 justify-center"
               onClick={() =>
                 window.open(
-                  `https://wa.me/?text=${encodeURIComponent(url)}`,
+                  `https://wa.me/?text=${encodeURIComponent(criarTextoCompartilhamento())}`,
                   "_blank"
                 )
               }

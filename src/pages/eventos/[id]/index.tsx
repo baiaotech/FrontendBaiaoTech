@@ -154,6 +154,14 @@ export default function EventoPage() {
           onClose={() => setShareOpen(false)}
           url={typeof window !== "undefined" ? window.location.href : ""}
           isMobile={isMobile}
+          evento={{
+            titulo: evento.titulo,
+            data: evento.data,
+            local: evento.local,
+            organizacao: evento.organizacao,
+            link_compra: evento.link_compra,
+            valor: String(evento.valor)
+          }}
         />
       </main>
       <Footer />
