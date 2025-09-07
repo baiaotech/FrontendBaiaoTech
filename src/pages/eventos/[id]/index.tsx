@@ -9,11 +9,17 @@ import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
 import { formatEventDate } from "@/lib/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShareNodes, faLocationDot, faCalendarDays, faBuilding } from "@fortawesome/free-solid-svg-icons";
+import useIsMobile from "@/components/hook";
+import ShareModal from "@/components/ShareModal";
 
 export default function EventoPage() {
   const [evento, setEvento] = useState<Evento | null>(null);
   const router = useRouter();
   const { id } = router.query;
+  const isMobile = useIsMobile(); 
+  const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
     const fetchEvento = async () => {
@@ -38,7 +44,7 @@ export default function EventoPage() {
       <Header />
       <main className="w-full flex justify-center items-start p-5">
         <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
-          <div className="w-full flex justify-center items-center ">
+          <div className="w-full flex justify-center items-center relative ">
             {evento.cover_photo_url ? (
               <img
                 className="w-full max-h-[400px] rounded-2xl object-contain bg-slate-900"
@@ -50,30 +56,54 @@ export default function EventoPage() {
             ) : (
               <div className="w-full h-[400px] bg-slate-900 rounded-2xl"></div>
             )}
+            {isMobile && (
+              <button
+                type="button"
+                className="absolute -bottom-3 -right-3 w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors shadow-lg"
+                aria-label="Compartilhar evento"
+                onClick={() => setShareOpen(true) }
+                style={{ position: "absolute" }}
+              >
+                <FontAwesomeIcon icon={faShareNodes} size="lg" />
+              </button>
+            )}
           </div>
 
           <div className="w-full h-auto flex flex-col mt-5">
-            <div className="w-full h-auto flex flex-row justify-between items-start gap-3">
+            <div className={`w-full h-auto flex ${isMobile ? "flex-col" : "flex-row"} justify-between items-start gap-3`}>
               <div className="flex flex-col">
-                <h1 className="text-base md:text-lg lg:text-2xl font-bold capitalize">
+                <div className="flex item-center gap-2">
+                  <h1 className="text-3xl md:text-lg lg:text-2xl font-bold capitalize">
                   {evento.titulo}
                 </h1>
+                </div>
+                
                 <Link
                   href={`/categorias/${evento.genero || ""}`}
-                  className="text-lg font-semibold capitalize"
+                  className="text-lg font-semibold text-orange-500 capitalize"
                 >
                   {evento.genero}
                 </Link>
               </div>
-
               <div className="flex flex-col justify-center items-start p-1.5">
                 <p className="text-xs md:text-sm lg:text-base font-semibold text-orange-500 capitalize">
+                   <FontAwesomeIcon icon={faCalendarDays} className="text-orange-500" />
                   {formatEventDate(evento.data)}
                 </p>
                 <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
-                  {evento.local}
+                  <FontAwesomeIcon icon={faLocationDot} className="text-orange-500" />
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(evento.local)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {evento.local}  
+                  </a>
+                  
                 </p>
                 <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
+                    <FontAwesomeIcon icon={faBuilding} className="text-orange-500" />
                   {evento.organizacao}
                 </p>
               </div>
@@ -81,28 +111,58 @@ export default function EventoPage() {
 
             <div className="w-full h-auto flex flex-col">
               <div className="w-full min-h-15 flex flex-col justify-start items-start">
-                <p className="text-lg text-orange-500 font-bold my-5">
+                <p className="text-2xl md:text-3xl lg:text-2xl text-green-800 font-bold my-5">
                   {evento.valor === "0.00" || evento.valor === 0 ? "Grátis" : evento.valor === "1.00" || evento.valor === 1 ? "Em breve" : `R$${evento.valor}`}
                 </p>
-
-                <Link
-                  className="p-2.5 bg-slate-900 text-white text-base rounded-lg capitalize"
+                <div className="flex item-center gap-3">
+                  <Link
+                  className="p-2.5 px-6 bg-slate-900 text-white text-base rounded-lg"
                   href={evento.link_compra || "#"}
                   target="_blank"
                 >
-                  Comprar ingresso
+                  {evento.valor === "0.00" || evento.valor === 0 ? "Inscreva-se" : evento.valor === "1.00" || evento.valor === 1 ? "Em breve" : `Comprar agora`}
                 </Link>
+                {!isMobile && ( 
+                  <button
+                    type="button"
+                    className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors"
+                    aria-label="Compartilhar evento"
+                    onClick={() => setShareOpen(true)}
+                  >
+                    <FontAwesomeIcon icon={faShareNodes} size="sm" />
+                  </button>
+                )}
+
+                </div>
+                
               </div>
 
               <div className="w-full mt-5">
+                <h1 className="text-xl md:text-lg lg:text-2xl font-bold capitalize mt-4 ">
+                  Descrição 
+                </h1>
                 <div
-                  className="w-full min-h-108 text-gray-600 whitespace-pre-line text-base"
+                  className="w-full min-h-108 text-gray-600 whitespace-pre-line text-base mt-4"
                   dangerouslySetInnerHTML={{ __html: evento.descricao }}
                 />
               </div>
             </div>
           </div>
         </div>
+        <ShareModal
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+          url={typeof window !== "undefined" ? window.location.href : ""}
+          isMobile={isMobile}
+          evento={{
+            titulo: evento.titulo,
+            data: evento.data,
+            local: evento.local,
+            organizacao: evento.organizacao,
+            link_compra: evento.link_compra,
+            valor: String(evento.valor)
+          }}
+        />
       </main>
       <Footer />
     </>
