@@ -13,6 +13,7 @@ import { categorias } from "@/components/categorias";
 import filterIcon from "@/assets/filter.svg";
 import imageTemplate from "@/assets/imgTemplate.png";
 import Image from "next/image";
+import { api } from "@/services/api";
 
 /** Sheet estático para mobile (sem absolute) */
 function MobileFilterSheet({
@@ -106,11 +107,45 @@ export default function MainEventosPage() {
     setCarregando(true);
 
     try {
-      const res =
-        trimmedQuery.length >= 2
-          ? await filtrarEventoPorPesquisa(trimmedQuery)
-          : await filtrarEventos();
-      setEventos(sortByDateProximity(res as Evento[]));
+      console.log("Buscando eventos para query:", trimmedQuery);
+      let allResults: any[] = [];
+      let nextUrl: string | null = "/eventos/";
+
+      if (trimmedQuery.length >= 2) {
+        // Para pesquisa, usar o endpoint de busca
+        const searchResponse: any = await api.get(`/eventos/search?q=${trimmedQuery}`);
+        const searchData: any = searchResponse.data;
+        if (searchData && typeof searchData === 'object' && 'results' in searchData) {
+          allResults = searchData.results || [];
+        } else if (Array.isArray(searchData)) {
+          allResults = searchData;
+        }
+      } else {
+        // Para todos os eventos, buscar todas as páginas
+        let nextUrl: string | null = "/eventos/";
+        while (nextUrl) {
+          console.log("Fetching page:", nextUrl);
+          const response: any = await api.get(nextUrl);
+          console.log("Response status:", response.status);
+          const data: any = response.data;
+          console.log("Response data:", data);
+          
+          if (data && typeof data === 'object' && 'results' in data) {
+            allResults = allResults.concat(data.results || []);
+            nextUrl = data.next ? data.next.replace(/^http:/, 'https:') : null;
+            console.log("Fetched", data.results?.length || 0, "events, next:", nextUrl);
+          } else if (Array.isArray(data)) {
+            allResults = allResults.concat(data);
+            nextUrl = null;
+            console.log("Fetched array of", data.length, "events");
+          } else {
+            console.warn("Formato de resposta inesperado", data);
+            break;
+          }
+        }
+      }      console.log("Total events fetched:", allResults.length);
+      setEventos(sortByDateProximity(allResults as Evento[]));
+      console.log("Eventos após ordenação:", sortByDateProximity(allResults as Evento[]));
     } catch (e) {
       console.error("Erro ao carregar eventos:", e);
       setEventos([]);
@@ -119,15 +154,6 @@ export default function MainEventosPage() {
       isLoadingRef.current = false;
     }
   }, []);
-
-  useEffect(() => {
-    // Pequeno delay para evitar execuções durante hidratação
-    const timeoutId = setTimeout(() => {
-      buscarEventos(query);
-    }, 100);
-
-    return () => clearTimeout(timeoutId);
-  }, [query, buscarEventos]);
 
   const handleFilterButton = () => setFilterBtnOpen((v) => !v);
   const closeFilter = () => setFilterBtnOpen(false);
@@ -145,18 +171,40 @@ export default function MainEventosPage() {
       prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]
     );
 
-  const aplicarFiltros = async (generosSelecionados?: string[]) => {
+  const aplicarFiltros = useCallback(async (generosSelecionados?: string[]) => {
     setCarregando(true);
     try {
-      const response = await filtrarEventos(
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        (generosSelecionados ?? selectedGenres).join(","),
-        undefined
-      );
-      setEventos(sortByDateProximity(response as Evento[]));
+      const genres = generosSelecionados ?? selectedGenres;
+      let allResults: any[] = [];
+
+      if (genres.length === 0) {
+        // Buscar todos os eventos
+        let nextUrl: string | null = "/eventos/";
+        while (nextUrl) {
+          const response: any = await api.get(nextUrl);
+          const data: any = response.data;
+          if (data && typeof data === 'object' && 'results' in data) {
+            allResults = allResults.concat(data.results || []);
+            nextUrl = data.next ? data.next.replace(/^http:/, 'https:') : null;
+          } else if (Array.isArray(data)) {
+            allResults = allResults.concat(data);
+            nextUrl = null;
+          } else {
+            break;
+          }
+        }
+      } else {
+        // Filtrar por gêneros
+        const response: any = await api.get(`/eventos/filter/?genero=${genres.join(",")}`);
+        const data: any = response.data;
+        if (data && typeof data === 'object' && 'results' in data) {
+          allResults = data.results || [];
+        } else if (Array.isArray(data)) {
+          allResults = data;
+        }
+      }
+
+      setEventos(sortByDateProximity(allResults as Evento[]));
     } catch (error) {
       console.error("Erro ao aplicar filtros:", error);
       setEventos([]);
@@ -164,7 +212,15 @@ export default function MainEventosPage() {
       setCarregando(false);
       closeFilter();
     }
-  };
+  }, [selectedGenres]);
+
+  useEffect(() => {
+    if (searchParams?.get("applyFilter") === "true") {
+      aplicarFiltros([]);
+    } else {
+      buscarEventos(query);
+    }
+  }, [query, buscarEventos, searchParams, aplicarFiltros]);
 
   const renderSkeleton = () =>
     Array.from({ length: 6 }).map((_, idx) => <SkeletonCard key={idx} />);

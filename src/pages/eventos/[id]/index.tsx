@@ -31,6 +31,7 @@ export default function EventoPage() {
         setEvento(eventoPorId || null);
       } catch (error) {
         console.error(error);
+        setEvento(null);
       }
     };
 

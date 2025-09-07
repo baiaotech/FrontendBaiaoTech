@@ -127,7 +127,7 @@ export default function ProximosEventos() {
     visibleEvents.length > 0 &&
     eventoAtualIndex + eventoPorPagina >= evento.length && (
       <Link
-        href="/eventos"
+        href="/eventos?applyFilter=true"
         className="w-32 md:w-72 h-64 flex flex-col justify-center items-center rounded-2xl"
       >
         <div className="lg:size-15 size-8 rounded-full border-1 border-slate-700">

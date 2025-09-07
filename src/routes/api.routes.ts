@@ -25,18 +25,42 @@ function extractDataFromResponse<T = unknown>(data: unknown): T[] {
 
 export async function pegarTodosEventos() {
   try {
-    const response = await api.get("/eventos/");
-    const data = response.data;
-    return extractDataFromResponse(data);
+    console.log("Fetching all events from API");
+    let allResults: any[] = [];
+    let nextUrl: string | null = "/eventos/";
+    
+    while (nextUrl) {
+      const response = await api.get(nextUrl);
+      console.log("Response status:", response.status);
+      const data = response.data;
+      console.log("Response data:", data);
+      
+      if (data && typeof data === 'object' && 'results' in data) {
+        const paginatedData = data as PaginatedResponse<any>;
+        allResults = allResults.concat(paginatedData.results || []);
+        nextUrl = paginatedData.next ? paginatedData.next.replace(/^http:/, 'https:') : null;
+        console.log("Fetched", paginatedData.results?.length || 0, "events, next:", nextUrl);
+      } else if (Array.isArray(data)) {
+        allResults = allResults.concat(data);
+        nextUrl = null;
+        console.log("Fetched array of", data.length, "events");
+      } else {
+        console.warn("filtrarEventoPorPesquisa: formato de resposta inesperado", data);
+        break;
+      }
+    }
+    
+    console.log("Total events fetched:", allResults.length);
+    return allResults;
   } catch (error) {
     console.error("Erro ao buscar eventos:", error);
-    return []; // Sempre retorna array vazio em caso de erro
+    return [];
   }
 }
 
 export async function pegarEventoPorId(id: number) {
   try {
-    const response = await api.get(`/eventos/edit/${id}/`);
+    const response = await api.get(`/eventos/${id}/`);
     const data = response.data;
 
     if (!data) throw new Error("Erro na requisição");
@@ -97,15 +121,36 @@ export async function filtrarEventos(
   titulo?: string
 ) {
   try {
-    const response = await api.get(
-      `/eventos/filter/?data=${dataEvento || ""}&local=${
-        local || ""
-      }&organizacao=${organizacao || ""}&descricao=${descricao || ""}&genero=${
-        genero || ""
-      }&titulo=${titulo || ""}`
-    );
-    const data = response.data;
-    return extractDataFromResponse(data);
+    const queryParams = new URLSearchParams({
+      data: dataEvento || "",
+      local: local || "",
+      organizacao: organizacao || "",
+      descricao: descricao || "",
+      genero: genero || "",
+      titulo: titulo || ""
+    }).toString();
+    
+    let allResults: any[] = [];
+    let nextUrl: string | null = `/eventos/filter/?${queryParams}`;
+    
+    while (nextUrl) {
+      const response = await api.get(nextUrl);
+      const data = response.data;
+      
+      if (data && typeof data === 'object' && 'results' in data) {
+        const paginatedData = data as PaginatedResponse<any>;
+        allResults = allResults.concat(paginatedData.results || []);
+        nextUrl = paginatedData.next ? paginatedData.next.replace(/^http:/, 'https:') : null;
+      } else if (Array.isArray(data)) {
+        allResults = allResults.concat(data);
+        nextUrl = null;
+      } else {
+        console.warn("filtrarEventos: formato de resposta inesperado", data);
+        break;
+      }
+    }
+    
+    return allResults;
   } catch (error) {
     console.error("Erro ao filtrar eventos:", error);
     return [];
@@ -114,11 +159,27 @@ export async function filtrarEventos(
 
 export async function filtrarEventoPorPesquisa(termo: string) {
   try {
-    const response = await api.get(
-      `/eventos/search${termo ? `?q=${termo}` : ""}`
-    );
-    const data = response.data;
-    return extractDataFromResponse(data);
+    let allResults: any[] = [];
+    let nextUrl: string | null = `/eventos/search${termo ? `?q=${termo}` : ""}`;
+    
+    while (nextUrl) {
+      const response = await api.get(nextUrl);
+      const data = response.data;
+      
+      if (data && typeof data === 'object' && 'results' in data) {
+        const paginatedData = data as PaginatedResponse<any>;
+        allResults = allResults.concat(paginatedData.results || []);
+        nextUrl = paginatedData.next;
+      } else if (Array.isArray(data)) {
+        allResults = allResults.concat(data);
+        nextUrl = null;
+      } else {
+        console.warn("filtrarEventoPorPesquisa: formato de resposta inesperado", data);
+        break;
+      }
+    }
+    
+    return allResults;
   } catch (error) {
     console.error("Erro na requisição:", error);
     return [];
