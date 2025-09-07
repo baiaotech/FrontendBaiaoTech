@@ -158,6 +158,20 @@ body {
   }
 }
 
+@keyframes slideUpSheet {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.animate-slideUpSheet {
+  animation: slideUpSheet 0.35s cubic-bezier(.4,0,.2,1);
+}
+
 .animate-fade-up {
   animation: fade-up 0.3s ease-out;
 }
