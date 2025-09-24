@@ -6,7 +6,7 @@ import { Evento } from "@/types";
 import { useRouter } from "next/navigation";
 import SkeletonCard from "./skeletonCard";
 import imageTemplate from "@/assets/imgTemplate.png";
-import { formatEventPeriod } from "@/lib/utils";
+import { formatEventPeriod, buildEventSlug } from "@/lib/utils";
 
 export default function EventoPrincipal() {
   const [eventoEsperado, setEventoEsperado] = useState<Evento | null>(null);
@@ -81,7 +81,7 @@ export default function EventoPrincipal() {
 
           <div className="w-full h-auto">
             <Button
-              onClick={() => router.push(`/eventos/${eventoEsperado.id}`)}
+              onClick={() => router.push(`/eventos/${buildEventSlug(eventoEsperado)}`)}
               className="lg:w-[200px] lg:h-[60px] w-[150px] h-[40px] bg-[#ccc] text-slate-900 text-base hover:bg-slate-900 hover:text-white"
             >
               Mais Detalhes

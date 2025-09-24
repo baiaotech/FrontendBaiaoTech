@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import { Evento } from "@/types";
-import { sortByDateProximity, formatEventPeriod } from "@/lib/utils";
+import { sortByDateProximity, formatEventPeriod, buildEventSlug } from "@/lib/utils";
 import FilterButton from "@/components/FilterButton";
 import SkeletonCard from "@/components/skeletonCard";
 import { categorias } from "@/components/categorias";
@@ -233,7 +233,7 @@ export default function MainEventosPage() {
       eventos.map((evento) => (
         <Link
           key={evento.id}
-          href={`/eventos/${evento.id || ""}`}
+          href={`/eventos/${buildEventSlug(evento)}`}
           className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         >
           <div className="w-full h-[150px] rounded-t-2xl overflow-hidden bg-slate-200">

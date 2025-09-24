@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { pegarTodosEventos } from "@/routes/api.routes";
-import { sortByDateProximity, formatEventPeriod } from "@/lib/utils";
+import { sortByDateProximity, formatEventPeriod, buildEventSlug } from "@/lib/utils";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
 import ArrowRightIcon from "@/assets/arrow-right.svg";
 import Link from "next/link";
@@ -85,7 +85,7 @@ export default function ProximosEventos() {
   const renderEventos = () =>
     visibleEvents.map((evento) => (
       <Link
-        href={`/eventos/${evento.id || ""}`}
+        href={`/eventos/${buildEventSlug(evento)}`}
         className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         key={evento.id}
       >

@@ -8,7 +8,7 @@ import SkeletonCard from "@/components/skeletonCard";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { filtrarEventoPorGenero } from "@/routes/api.routes";
-import { sortByDateProximity, formatEventPeriod } from "@/lib/utils";
+import { sortByDateProximity, formatEventPeriod, buildEventSlug } from "@/lib/utils";
 import imageTemplate from "@/assets/imgTemplate.png";
 
 export default function CategoriaPorGenero() {
@@ -44,7 +44,7 @@ export default function CategoriaPorGenero() {
   const renderEventos = () =>
     eventos.map((evento) => (
       <Link
-        href={`/eventos/${evento.id || ""}`}
+        href={`/eventos/${buildEventSlug(evento)}`}
         className="w-72 min-h-64 shadow flex flex-col rounded-2xl"
         key={evento.id}
       >

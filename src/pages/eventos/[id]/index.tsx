@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
-import { formatEventPeriod, generateCalendarUrl } from "@/lib/utils";
+import { formatEventPeriod, generateCalendarUrl, extractIdFromSlug } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareNodes, faLocationDot, faCalendarDays, faBuilding, faCalendarPlus, faBars } from "@fortawesome/free-solid-svg-icons";
 import useIsMobile from "@/components/hook";
@@ -18,16 +18,22 @@ export default function EventoPage() {
   const [evento, setEvento] = useState<Evento | null>(null);
   const router = useRouter();
   const { id } = router.query;
+  const eventId = extractIdFromSlug(id);
   const isMobile = useIsMobile(); 
   const [shareOpen, setShareOpen] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
 
   useEffect(() => {
+    if (eventId == null) {
+      setEvento(null);
+      return;
+    }
+
     const fetchEvento = async () => {
       try {
         const response = await pegarTodosEventos();
         const eventoPorId = (response as Evento[]).find(
-          (idEvento: Evento) => idEvento.id === Number(id)
+          (idEvento: Evento) => idEvento.id === Number(eventId)
         );
         setEvento(eventoPorId || null);
       } catch (error) {
@@ -36,8 +42,8 @@ export default function EventoPage() {
       }
     };
 
-    if (id) fetchEvento();
-  }, [id]);
+    fetchEvento();
+  }, [eventId]);
 
   const handleAddToCalendar = () => {
     if (!evento) return;

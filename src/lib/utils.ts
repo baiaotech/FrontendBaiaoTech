@@ -16,6 +16,38 @@ export function parseEventDate(value?: string): number {
   return Number.isNaN(t) ? NaN : t;
 }
 
+function slugify(value: string): string {
+  return value
+    .toLocaleLowerCase("pt-BR")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .trim();
+}
+
+export function buildEventSlug(evento: { id?: number | string; titulo?: string }): string {
+  const id = `${evento.id ?? ""}`.trim();
+  const base = evento.titulo ? slugify(evento.titulo) : "evento";
+  return id ? `${base}-${id}` : base;
+}
+
+export function extractIdFromSlug(param?: string | string[]): number | null {
+  if (!param) return null;
+  const raw = Array.isArray(param) ? param[0] : param;
+  if (!raw) return null;
+
+  const direct = Number(raw);
+  if (Number.isFinite(direct)) {
+    return direct;
+  }
+
+  const parts = raw.split("-");
+  const maybeId = Number(parts[parts.length - 1]);
+  return Number.isFinite(maybeId) ? maybeId : null;
+}
+
 /**
  * Formata uma data no formato "YYYY-MM-DD" ou ISO para "Domingo, 14 de Setembro de 2025"
  */
