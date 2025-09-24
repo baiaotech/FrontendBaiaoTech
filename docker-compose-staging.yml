@@ -2,7 +2,7 @@ services:
   frontend-staging:
     build:
       context: .
-      Dockerfile: Dockerfile.staging
+      dockerfile: ./Dockerfile.staging
       args:
         NEXT_PUBLIC_API_URL: http://staging-api.baiaotech.org/api/v1
         NEXT_PUBLIC_FORM_LINK: https://forms.gle/ViFkUTk9aFq7LBUg9
