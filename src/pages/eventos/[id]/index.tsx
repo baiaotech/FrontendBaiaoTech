@@ -10,7 +10,7 @@ import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
 import { formatEventPeriod, generateCalendarUrl } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShareNodes, faLocationDot, faCalendarDays, faBuilding, faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
+import { faShareNodes, faLocationDot, faCalendarDays, faBuilding, faCalendarPlus, faBars } from "@fortawesome/free-solid-svg-icons";
 import useIsMobile from "@/components/hook";
 import ShareModal from "@/components/ShareModal";
 
@@ -20,6 +20,7 @@ export default function EventoPage() {
   const { id } = router.query;
   const isMobile = useIsMobile(); 
   const [shareOpen, setShareOpen] = useState(false);
+  const [actionsOpen, setActionsOpen] = useState(false);
 
   useEffect(() => {
     const fetchEvento = async () => {
@@ -92,17 +93,6 @@ export default function EventoPage() {
               />
             ) : (
               <div className="w-full h-[400px] bg-slate-900 rounded-2xl"></div>
-            )}
-            {isMobile && (
-              <button
-                type="button"
-                className="absolute -bottom-3 -right-3 w-10 h-10 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors shadow-lg"
-                aria-label="Compartilhar evento"
-                onClick={() => setShareOpen(true) }
-                style={{ position: "absolute" }}
-              >
-                <FontAwesomeIcon icon={faShareNodes} size="lg" />
-              </button>
             )}
           </div>
 
@@ -197,29 +187,73 @@ export default function EventoPage() {
           </div>
         </div>
         {isMobile && (
-          <div
-            className="md:hidden fixed inset-x-0 bottom-0 z-30 px-5 pt-4 bg-white/95 backdrop-blur border-t border-slate-200 shadow-[0_-10px_30px_rgba(15,23,42,0.12)]"
-            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)" }}
-          >
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                className="h-14 w-16 rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-md flex items-center justify-center"
-                aria-label="Adicionar ao calendário"
-                onClick={handleAddToCalendar}
-              >
-                <FontAwesomeIcon icon={faCalendarPlus} size="lg" />
-              </button>
-              <Link
-                href={ctaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 h-14 inline-flex items-center justify-center rounded-2xl bg-slate-900 text-white text-base font-semibold shadow-lg"
-              >
-                {ctaText}
-              </Link>
+          <>
+            {actionsOpen && (
+              <div
+                className="fixed inset-0 z-20 bg-transparent"
+                onClick={() => setActionsOpen(false)}
+                aria-hidden="true"
+              />
+            )}
+            <div
+              className="md:hidden fixed inset-x-0 bottom-0 z-30 px-5 pt-4 bg-white/95 backdrop-blur border-t border-slate-200 shadow-[0_-10px_30px_rgba(15,23,42,0.12)]"
+              style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)" }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="relative flex-shrink-0">
+                  <button
+                    type="button"
+                    className="h-14 w-16 rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-md flex items-center justify-center"
+                    aria-label="Opções do evento"
+                    aria-expanded={actionsOpen}
+                    onClick={() => setActionsOpen((prev) => !prev)}
+                  >
+                    <FontAwesomeIcon icon={faBars} size="lg" />
+                  </button>
+
+                  {actionsOpen && (
+                    <div
+                      className="absolute bottom-16 left-0 z-40 w-[220px] max-w-[calc(100vw-80px)] rounded-2xl border border-slate-200 bg-white shadow-[0_20px_40px_rgba(15,23,42,0.18)] p-2"
+                      style={{ minWidth: "180px" }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleAddToCalendar();
+                          setActionsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      >
+                        <FontAwesomeIcon icon={faCalendarPlus} className="text-slate-500" />
+                        Adicionar à agenda
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShareOpen(true);
+                          setActionsOpen(false);
+                        }}
+                        className="mt-1 w-full flex items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      >
+                        <FontAwesomeIcon icon={faShareNodes} className="text-slate-500" />
+                        Compartilhar
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <Link
+                  href={ctaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 h-14 inline-flex items-center justify-center rounded-2xl bg-slate-900 text-white text-base font-semibold shadow-lg"
+                  onClick={() => setActionsOpen(false)}
+                >
+                  {ctaText}
+                </Link>
+              </div>
             </div>
-          </div>
+          </>
         )}
         <ShareModal
           open={shareOpen}
@@ -228,6 +262,8 @@ export default function EventoPage() {
           isMobile={isMobile}
           evento={{
             titulo: evento.titulo,
+            data_inicio: evento.data_inicio,
+            data_fim: evento.data_fim,
             data: formatEventPeriod(evento.data_inicio, evento.data_fim),
             local: evento.local,
             organizacao: evento.organizacao,

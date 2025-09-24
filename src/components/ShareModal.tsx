@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { formatEventPeriod } from "@/lib/utils";
 
 type Props = {
   open: boolean;
@@ -12,6 +13,8 @@ type Props = {
   evento?: {
     titulo?: string;
     data?: string;
+    data_inicio?: string;
+    data_fim?: string;
     local?: string;
     organizacao?: string;
     link_compra?: string;
@@ -27,17 +30,23 @@ export default function ShareModal({ open, onClose, url, isMobile, evento }: Pro
   const criarTextoCompartilhamento = () => {
     if (!evento) return url;
 
-    const { titulo, data, local, organizacao, link_compra, valor } = evento;
+    const { titulo, data, data_inicio, data_fim, local, organizacao, valor } = evento;
 
     let texto = `🎉 *${titulo || 'Evento'}*\n\n`;
 
-    if (data) {
-      const dataFormatada = new Date(data).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-      texto += `📅 *Data:* ${dataFormatada}\n`;
+    const dataTexto = (() => {
+      if (data_inicio || data_fim) {
+        const periodo = formatEventPeriod(data_inicio, data_fim);
+        if (periodo && periodo.trim().length > 0) {
+          return periodo;
+        }
+        return data_inicio || data_fim || data || "";
+      }
+      return data || "";
+    })();
+
+    if (dataTexto) {
+      texto += `📅 *Quando:* ${dataTexto}\n`;
     }
 
     if (local) {
@@ -55,8 +64,12 @@ export default function ShareModal({ open, onClose, url, isMobile, evento }: Pro
       texto += `💰 *Valor:* ${valorTexto}\n`;
     }
 
-    texto += `\n🔗 *Link para inscrição:* ${link_compra || url}\n\n`;
-    texto += `Compartilhado via Baião Tech 🚀`;
+    texto += `\n🔗 *Veja no Baião Tech:* ${url}\n`;
+    
+    texto += `\n📲 Participe também:\n`;
+
+    texto += `\n🔗 *Canal no WhatsApp:* https://canal.baiaotech.org/`;
+    texto += `\n🔗 *Grupo no Whatsapp:* https://whatsapp.baiaotech.org/`;
 
     return texto;
   };
@@ -127,8 +140,8 @@ export default function ShareModal({ open, onClose, url, isMobile, evento }: Pro
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-black bg-opacity-40`}
-      style={{}}
+      className="fixed inset-0 z-50 bg-white/20 backdrop-blur"
+      style={{ backdropFilter: "blur(7.5px)" }}
     >
       {/* Desktop modal */}
       {!isMobile && (
