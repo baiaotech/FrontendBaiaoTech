@@ -68,10 +68,18 @@ export default function EventoPage() {
     );
   }
 
+  const isFree = evento.valor === "0.00" || evento.valor === 0;
+  const isComingSoon = evento.valor === "1.00" || evento.valor === 1;
+  const priceLabel = isFree ? "Grátis" : isComingSoon ? "Em breve" : `R$${evento.valor}`;
+  const ctaText = isFree ? "Inscreva-se" : isComingSoon ? "Em breve" : "Comprar agora";
+  const ctaLink = evento.link_compra && evento.link_compra.trim() !== "" ? evento.link_compra : "#";
+
   return (
     <>
       <Header />
-      <main className="w-full flex justify-center items-start p-5">
+      <main
+        className={`w-full flex justify-center items-start p-5 ${isMobile ? "pb-32" : ""}`}
+      >
         <div className="container max-w-7xl h-full flex flex-col justify-start items-start">
           <div className="w-full flex justify-center items-center relative ">
             {evento.cover_photo_url ? (
@@ -141,35 +149,37 @@ export default function EventoPage() {
             <div className="w-full h-auto flex flex-col">
               <div className="w-full min-h-15 flex flex-col justify-start items-start">
                 <p className="text-2xl md:text-3xl lg:text-2xl text-green-800 font-bold my-5">
-                  {evento.valor === "0.00" || evento.valor === 0 ? "Grátis" : evento.valor === "1.00" || evento.valor === 1 ? "Em breve" : `R$${evento.valor}`}
+                  {priceLabel}
                 </p>
-                <div className="flex item-center gap-3">
-                  <Link
-                  className="p-2.5 px-6 bg-slate-900 text-white text-base rounded-lg"
-                  href={evento.link_compra || "#"}
-                  target="_blank"
-                >
-                  {evento.valor === "0.00" || evento.valor === 0 ? "Inscreva-se" : evento.valor === "1.00" || evento.valor === 1 ? "Em breve" : `Comprar agora`}
-                </Link>
-                {!isMobile && ( 
-                  <button
-                    type="button"
-                    className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors"
-                    aria-label="Compartilhar evento"
-                    onClick={() => setShareOpen(true)}
-                  >
-                    <FontAwesomeIcon icon={faShareNodes} size="sm" />
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors"
-                  aria-label="Adicionar ao calendário"
-                  onClick={handleAddToCalendar}
-                >
-                  <FontAwesomeIcon icon={faCalendarPlus} size="sm" />
-                </button>
-
+                <div className="flex items-center gap-3">
+                  {!isMobile && (
+                    <>
+                      <Link
+                        className="p-2.5 px-6 bg-slate-900 text-white text-base rounded-lg"
+                        href={ctaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {ctaText}
+                      </Link>
+                      <button
+                        type="button"
+                        className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors"
+                        aria-label="Compartilhar evento"
+                        onClick={() => setShareOpen(true)}
+                      >
+                        <FontAwesomeIcon icon={faShareNodes} size="sm" />
+                      </button>
+                      <button
+                        type="button"
+                        className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors"
+                        aria-label="Adicionar ao calendário"
+                        onClick={handleAddToCalendar}
+                      >
+                        <FontAwesomeIcon icon={faCalendarPlus} size="sm" />
+                      </button>
+                    </>
+                  )}
                 </div>
                 
               </div>
@@ -186,6 +196,31 @@ export default function EventoPage() {
             </div>
           </div>
         </div>
+        {isMobile && (
+          <div
+            className="md:hidden fixed inset-x-0 bottom-0 z-30 px-5 pt-4 bg-white/95 backdrop-blur border-t border-slate-200 shadow-[0_-10px_30px_rgba(15,23,42,0.12)]"
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.25rem)" }}
+          >
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                className="h-14 w-16 rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-md flex items-center justify-center"
+                aria-label="Adicionar ao calendário"
+                onClick={handleAddToCalendar}
+              >
+                <FontAwesomeIcon icon={faCalendarPlus} size="lg" />
+              </button>
+              <Link
+                href={ctaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 h-14 inline-flex items-center justify-center rounded-2xl bg-slate-900 text-white text-base font-semibold shadow-lg"
+              >
+                {ctaText}
+              </Link>
+            </div>
+          </div>
+        )}
         <ShareModal
           open={shareOpen}
           onClose={() => setShareOpen(false)}
