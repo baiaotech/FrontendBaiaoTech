@@ -2,13 +2,14 @@ services:
   frontend:
     build:
       context: .
+      Dockerfile: Dockerfile.staging
       args:
-        NEXT_PUBLIC_API_URL: http://api.baiaotech.org/api/v1
+        NEXT_PUBLIC_API_URL: http://staging-api.baiaotech.org/api/v1
         NEXT_PUBLIC_FORM_LINK: https://forms.gle/ViFkUTk9aFq7LBUg9
-        NEXT_PUBLIC_COMMUNITY_API_URL: http://api.baiaotech.org/api/v1/comunidades/
+        NEXT_PUBLIC_COMMUNITY_API_URL: http://staging-api.baiaotech.org/api/v1/comunidades/
     container_name: frontend-baiao-tech
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       NODE_ENV: production
       NEXT_TELEMETRY_DISABLED: "1"

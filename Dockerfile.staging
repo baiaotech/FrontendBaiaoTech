@@ -17,9 +17,9 @@ RUN pnpm install --no-frozen-lockfile
 
 COPY . .
 
-ENV NEXT_PUBLIC_API_URL="https://api.baiaotech.org/api/v1"
+ENV NEXT_PUBLIC_API_URL="https://staging-api.baiaotech.org/api/v1"
 ENV NEXT_PUBLIC_FORM_LINK="https://forms.gle/ViFkUTk9aFq7LBUg9"
-ENV NEXT_PUBLIC_COMMUNITY_API_URL="https://api.baiaotech.org/api/v1/comunidades/"
+ENV NEXT_PUBLIC_COMMUNITY_API_URL="https://staging-api.baiaotech.org/api/v1/comunidades/"
 
 RUN pnpm run build
 
