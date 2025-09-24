@@ -1,5 +1,5 @@
 services:
-  frontend:
+  frontend-staging:
     build:
       context: .
       Dockerfile: Dockerfile.staging
@@ -7,7 +7,8 @@ services:
         NEXT_PUBLIC_API_URL: http://staging-api.baiaotech.org/api/v1
         NEXT_PUBLIC_FORM_LINK: https://forms.gle/ViFkUTk9aFq7LBUg9
         NEXT_PUBLIC_COMMUNITY_API_URL: http://staging-api.baiaotech.org/api/v1/comunidades/
-    container_name: frontend-baiao-tech
+    container_name: frontend-baiaotech-staging
+    restart: unless-stopped
     ports:
       - "3001:3000"
     environment:
