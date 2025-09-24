@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 import { Evento } from "@/types";
-import { sortByDateProximity, formatEventDate } from "@/lib/utils";
+import { sortByDateProximity, formatEventPeriod } from "@/lib/utils";
 import FilterButton from "@/components/FilterButton";
 import SkeletonCard from "@/components/skeletonCard";
 import { categorias } from "@/components/categorias";
@@ -249,7 +249,7 @@ export default function MainEventosPage() {
           <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
             <div className="w-full mb-2">
               <h3 className="text-xs text-orange-500 font-semibold mb-2">
-                {formatEventDate(evento.data)}
+                {formatEventPeriod(evento.data_inicio, evento.data_fim)}
               </h3>
               <h3 className="text-sm text-slate-900 font-semibold mb-2">
                 {evento.titulo}

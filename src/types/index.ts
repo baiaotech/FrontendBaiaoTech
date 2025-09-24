@@ -1,7 +1,9 @@
 export interface Evento {
   id: number;
   titulo: string;
-  data: string;
+  data?: string; // manter para compatibilidade
+  data_inicio: string;
+  data_fim: string;
   local: string;
   organizacao: string;
   valor: number | string;
@@ -9,6 +11,8 @@ export interface Evento {
   descricao: string;
   genero: string;
   cover_photo_url: string;
+  is_featured?: boolean;
+  priority_level?: number;
 }
 
 export interface Comunidade {

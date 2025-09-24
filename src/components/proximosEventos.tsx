@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { pegarTodosEventos } from "@/routes/api.routes";
-import { sortByDateProximity, formatEventDate } from "@/lib/utils";
+import { sortByDateProximity, formatEventPeriod } from "@/lib/utils";
 import ArrowLeftIcon from "@/assets/arrow-left.svg";
 import ArrowRightIcon from "@/assets/arrow-right.svg";
 import Link from "next/link";
@@ -106,7 +106,7 @@ export default function ProximosEventos() {
         <div className="w-full flex flex-col justify-between items-start p-4 rounded-b-2xl">
           <div className="w-full h-auto mb-2">
             <h3 className="text-xs text-orange-500 text-left font-semibold capitalize mb-2">
-              {formatEventDate(evento.data)}
+              {formatEventPeriod(evento.data_inicio, evento.data_fim)}
             </h3>
 
             <h3 className="text-sm text-slate-900 text-left font-semibold capitalize mb-2">

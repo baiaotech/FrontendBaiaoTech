@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
-import { formatEventDate } from "@/lib/utils";
+import { formatEventPeriod } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareNodes, faLocationDot, faCalendarDays, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import useIsMobile from "@/components/hook";
@@ -89,7 +89,7 @@ export default function EventoPage() {
               <div className="flex flex-col justify-center items-start p-1.5">
                 <p className="text-xs md:text-sm lg:text-base font-semibold text-orange-500 capitalize">
                    <FontAwesomeIcon icon={faCalendarDays} className="text-orange-500" />
-                  {formatEventDate(evento.data)}
+                  {formatEventPeriod(evento.data_inicio, evento.data_fim)}
                 </p>
                 <p className="text-xs md:text-sm lg:text-base font-semibold capitalize">
                   <FontAwesomeIcon icon={faLocationDot} className="text-orange-500" />
@@ -157,7 +157,7 @@ export default function EventoPage() {
           isMobile={isMobile}
           evento={{
             titulo: evento.titulo,
-            data: evento.data,
+            data: formatEventPeriod(evento.data_inicio, evento.data_fim),
             local: evento.local,
             organizacao: evento.organizacao,
             link_compra: evento.link_compra,
