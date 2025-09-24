@@ -8,9 +8,9 @@ import Footer from "@/components/Footer";
 import { Evento } from "@/types";
 import Link from "next/link";
 import imageTemplate from "@/assets/imgTemplate.png";
-import { formatEventPeriod } from "@/lib/utils";
+import { formatEventPeriod, generateCalendarUrl } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShareNodes, faLocationDot, faCalendarDays, faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { faShareNodes, faLocationDot, faCalendarDays, faBuilding, faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import useIsMobile from "@/components/hook";
 import ShareModal from "@/components/ShareModal";
 
@@ -38,7 +38,35 @@ export default function EventoPage() {
     if (id) fetchEvento();
   }, [id]);
 
-  if (!evento) return <p>Carregando...</p>;
+  const handleAddToCalendar = () => {
+    if (!evento) return;
+
+    const calendarUrl = generateCalendarUrl({
+      titulo: evento.titulo,
+      data_inicio: evento.data_inicio,
+      data_fim: evento.data_fim,
+      local: evento.local,
+      descricao: evento.descricao,
+      link_compra: evento.link_compra
+    });
+
+    // Abrir o calendário em uma nova aba
+    window.open(calendarUrl, '_blank');
+  };
+
+  if (!evento) {
+    return (
+      <>
+        <Header />
+        <main className="w-full flex justify-center items-center p-5 min-h-screen">
+          <div className="text-center">
+            <p className="text-lg text-gray-600">Carregando evento...</p>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -133,6 +161,14 @@ export default function EventoPage() {
                     <FontAwesomeIcon icon={faShareNodes} size="sm" />
                   </button>
                 )}
+                <button
+                  type="button"
+                  className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-900 text-white hover:bg-orange-500 transition-colors"
+                  aria-label="Adicionar ao calendário"
+                  onClick={handleAddToCalendar}
+                >
+                  <FontAwesomeIcon icon={faCalendarPlus} size="sm" />
+                </button>
 
                 </div>
                 

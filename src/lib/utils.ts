@@ -103,23 +103,6 @@ export function formatEventDateTime(dateString?: string): string {
 }
 
 /**
- * Formata uma data e hora no formato compacto "DD MMM - YYYY • HH:MM"
- */
-function formatCompactDateTime(date: Date): string {
-  const day = date.getDate().toString().padStart(2, '0');
-  const months = [
-    "jan", "fev", "mar", "abr", "mai", "jun",
-    "jul", "ago", "set", "out", "nov", "dez"
-  ];
-  const month = months[date.getMonth()];
-  const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-
-  return `${day} ${month} - ${year} • ${hours}:${minutes}`;
-}
-
-/**
  * Formata o período completo do evento no formato compacto
  * Mesmo dia: "05 nov - 2025 • 08:00 > 18:00"
  * Dias diferentes: "05 nov - 2025 • 08:00 > 07 nov - 2025 • 18:00"
@@ -133,9 +116,6 @@ export function formatEventPeriod(dataInicio?: string, dataFim?: string): string
   if (isNaN(inicio.getTime()) || isNaN(fim.getTime())) {
     return formatEventDate(dataInicio);
   }
-
-  const inicioFormatted = formatCompactDateTime(inicio);
-  const fimFormatted = formatCompactDateTime(fim);
 
   // Mesmo dia - mostrar apenas as horas no final
   if (inicio.toDateString() === fim.toDateString()) {
@@ -156,7 +136,59 @@ export function formatEventPeriod(dataInicio?: string, dataFim?: string): string
   }
 
   // Dias diferentes - mostrar data completa de início e fim
-  return `${inicioFormatted} > ${fimFormatted}`;
+  const dayInicio = inicio.getDate().toString().padStart(2, '0');
+  const months = [
+    "jan", "fev", "mar", "abr", "mai", "jun",
+    "jul", "ago", "set", "out", "nov", "dez"
+  ];
+  const monthInicio = months[inicio.getMonth()];
+  const yearInicio = inicio.getFullYear();
+  const hoursInicio = inicio.getHours().toString().padStart(2, '0');
+  const minutesInicio = inicio.getMinutes().toString().padStart(2, '0');
+
+  const dayFim = fim.getDate().toString().padStart(2, '0');
+  const monthFim = months[fim.getMonth()];
+  const yearFim = fim.getFullYear();
+  const hoursFim = fim.getHours().toString().padStart(2, '0');
+  const minutesFim = fim.getMinutes().toString().padStart(2, '0');
+
+  return `${dayInicio} ${monthInicio} - ${yearInicio} • ${hoursInicio}:${minutesInicio} > ${dayFim} ${monthFim} - ${yearFim} • ${hoursFim}:${minutesFim}`;
+}
+/**
+ * Gera URL para adicionar evento diretamente ao calendário do usuário
+ * Suporta Google Calendar, Outlook e outros calendários compatíveis
+ */
+export function generateCalendarUrl(evento: {
+  titulo: string;
+  data_inicio: string;
+  data_fim: string;
+  local: string;
+  descricao?: string;
+  link_compra?: string;
+}): string {
+  const inicio = new Date(evento.data_inicio);
+  const fim = new Date(evento.data_fim);
+
+  // Formatar datas para formato Google Calendar (YYYYMMDDTHHMMSSZ)
+  const formatDateTime = (date: Date): string => {
+    return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  };
+
+  const dtStart = formatDateTime(inicio);
+  const dtEnd = formatDateTime(fim);
+
+  // Codificar parâmetros da URL
+  const title = encodeURIComponent(evento.titulo);
+  const location = encodeURIComponent(evento.local);
+  const description = encodeURIComponent(
+    (evento.descricao || '') +
+    (evento.link_compra ? `\n\nLink para compra: ${evento.link_compra}` : '')
+  );
+
+  // URL para Google Calendar
+  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dtStart}/${dtEnd}&details=${description}&location=${location}`;
+
+  return googleCalendarUrl;
 }
 
 /**
